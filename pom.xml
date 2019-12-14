@@ -20,7 +20,7 @@
 
     <modules>
         <module>platform</module>
-        <module>concert</module>
+        <module>event</module>
         <module>account</module>
     </modules>
 

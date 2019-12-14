@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>seko0716</groupId>
-            <artifactId>concert</artifactId>
+            <artifactId>event</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

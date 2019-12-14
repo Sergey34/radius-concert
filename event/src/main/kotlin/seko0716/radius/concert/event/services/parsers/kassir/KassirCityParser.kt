@@ -30,7 +30,7 @@ class KassirCityParser : CityParser {
         }
     }
 
-    //todo rewrite to yandex api, add cashing
+    //todo rewrite to https://gist.github.com/nalgeon/5307af065ff0e3bc97927c832fabe26b
     private fun getGeocode(name: String): Any {
         return try {
             val readValue =

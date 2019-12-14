@@ -7,7 +7,6 @@
         <artifactId>radius-concert</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>seko0716.redius.concert</groupId>
     <artifactId>platform</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>platform</name>
@@ -19,7 +18,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>seko0716</groupId>
+            <groupId>seko0716.redius.concert</groupId>
             <artifactId>event</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

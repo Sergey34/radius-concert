@@ -32,11 +32,15 @@ class KassirCityParser : CityParser {
 
     //todo rewrite to yandex api, add cashing
     private fun getGeocode(name: String): Any {
-        val readValue =
-            mapper.readValue<Map<String, Any>>(URL("https://geocode.xyz/${name}?json=1&auth=535808461301567696423x4142"))
-        return Coordinate(
-            readValue["longt"]?.toString()?.toDouble() ?: Double.NaN,
-            readValue["latt"]?.toString()?.toDouble() ?: Double.NaN
-        )
+        return try {
+            val readValue =
+                mapper.readValue<Map<String, Any>>(URL("https://geocode.xyz/${name}?json=1&auth=535808461301567696423x4142"))
+            Coordinate(
+                readValue["longt"]?.toString()?.toDouble() ?: Double.NaN,
+                readValue["latt"]?.toString()?.toDouble() ?: Double.NaN
+            )
+        } catch (e: Exception) {
+            Coordinate(Double.NaN, Double.NaN)
+        }
     }
 }

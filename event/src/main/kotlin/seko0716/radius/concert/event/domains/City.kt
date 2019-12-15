@@ -4,5 +4,5 @@ data class City(
     val type: String,
     val url: String,
     val name: String,
-    val geocode: Any
+    val position: Coordinate
 )

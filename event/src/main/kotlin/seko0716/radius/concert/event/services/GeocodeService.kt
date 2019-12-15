@@ -1,10 +1,11 @@
 package seko0716.radius.concert.event.services
 
-import seko0716.radius.concert.event.domains.Coordinate
+import org.springframework.data.geo.Point
+
 
 interface GeocodeService {
 
-    suspend fun initGeocodes()
+    fun initGeocodes()
 
-    suspend fun getGeocode(name: String): Coordinate
+    suspend fun getGeocode(name: String): Point
 }

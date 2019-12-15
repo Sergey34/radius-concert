@@ -5,6 +5,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
 import seko0716.radius.concert.event.config.addToCollection
+import seko0716.radius.concert.event.config.attempt
 import seko0716.radius.concert.event.domains.City
 import seko0716.radius.concert.event.domains.Event
 import seko0716.radius.concert.event.services.parsers.EventParser
@@ -28,28 +29,37 @@ class KassirEventsEventParser : EventParser {
         var cnt: Int
         val result: MutableList<Event> = mutableListOf()
         do {
-            val pageData = mapper.readValue<Map<String, Any>>(URL("${city.url}${suffix}${page}"))
-            cnt = pageData["cnt"] as Int
-            Jsoup.parse(pageData["html"] as String).run {
-                select("div.caption")
-                    .map {
+            val pageData = attempt({
+                mapper.readValue<Map<String, Any>>(URL("${city.url}${suffix}${page}"))
+            }) { return result }
+
+            cnt = pageData["cnt"] as Int? ?: 0
+            val html = attempt({
+                Jsoup.parse(pageData["html"] as String?)
+            }) { null } ?: continue
+
+            html.run {
+                select("div.caption").mapNotNull {
+                    attempt({
                         val content = it.select("a.btn.btn-primary.btn-lg.js-ec-click-product").attr("data-ec-item")
                         val data = mapper.readValue<Map<String, Any>>(content)
+                        val url = it.select("div.title").select("a").attr("href")
                         Event(
                             city = city,
-                            url = it.select("div.title").select("a").attr("href"),
+                            url = url,
+                            id = url,
                             name = data["name"] as String,
                             category = data["category"] as String,
                             categoryId = data["category_id"].toString(),
                             image = data["image"] as String,
-                            maxPrice = data["maxPrice"] as Int,
-                            minPrice = data["minPrice"] as Int,
+                            maxPrice = data["maxPrice"] as Int? ?: 0,
+                            minPrice = data["minPrice"] as Int? ?: 0,
                             thirdPartyId = data["id"].toString(),
-                            id = "",
                             endDate = parseDate(data, "end_max"),
                             startDate = parseDate(data, "start_min")
                         )
-                    }
+                    }) { null }
+                }
             }.addToCollection(result)
             page++
         } while (page < cnt)
@@ -62,7 +72,7 @@ class KassirEventsEventParser : EventParser {
         return when (val date = data["date"]) {
             is String -> LocalDateTime.parse(date, dateFormat)
             is Map<*, *> -> LocalDateTime.parse(date[type] as String, dateFormat)
-            else -> LocalDateTime.MIN
+            else -> throw IllegalStateException("Can not parse date")
         }
     }
 }

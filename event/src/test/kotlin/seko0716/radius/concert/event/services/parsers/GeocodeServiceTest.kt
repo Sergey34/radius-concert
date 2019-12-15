@@ -4,6 +4,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import seko0716.radius.concert.event.config.isNan
 import seko0716.radius.concert.event.services.FileGeocodeService
 
 internal class GeocodeServiceTest {

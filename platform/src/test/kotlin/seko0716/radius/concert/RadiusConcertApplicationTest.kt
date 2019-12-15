@@ -1,4 +1,4 @@
-package seko0716.radiusconcert
+package seko0716.radius.concert
 
 import org.junit.jupiter.api.Test
 

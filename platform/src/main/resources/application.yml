@@ -1,0 +1,8 @@
+spring:
+  application:
+    geocode:
+      file:
+        path: /home/sergey/IdeaProjects/radius-concert/event/src/main/resources/geocodes.xml
+    events:
+      dataset:
+        refresh: '* * * * * ?'

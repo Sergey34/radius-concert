@@ -14,7 +14,6 @@ import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import org.springframework.stereotype.Repository
-import reactor.core.publisher.Flux
 import seko0716.radius.concert.event.domains.Event
 
 
@@ -43,5 +42,4 @@ class EventRepository @Autowired constructor(
 
 @Repository
 interface EventMongoRepository : ReactiveMongoRepository<Event, String> {
-    fun saveAll(events: Collection<Event>): Flux<Event>
 }

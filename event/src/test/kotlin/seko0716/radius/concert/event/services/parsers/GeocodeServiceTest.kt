@@ -1,12 +1,13 @@
-package seko0716.radius.concert.event.services.parsers.kassir
+package seko0716.radius.concert.event.services.parsers
 
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import seko0716.radius.concert.event.services.FileGeocodeService
 
-internal class KassirCityEventParserTest {
+internal class GeocodeServiceTest {
+
     companion object {
         lateinit var geocodeService: FileGeocodeService
         @BeforeAll
@@ -19,9 +20,14 @@ internal class KassirCityEventParserTest {
     }
 
     @Test
-    fun parse() = runBlocking {
-        val kassirCityParser = KassirCityParser(geocodeService)
-        val parse = kassirCityParser.parse()
-        Assertions.assertTrue(parse.isNotEmpty())
+    fun getGeocodeSaratov() = runBlocking {
+        val geocode = geocodeService.getGeocode("Саратов")
+        assertTrue(!geocode.isNan())
+    }
+
+    @Test
+    fun getGeocodeMoscow() = runBlocking {
+        val geocode = geocodeService.getGeocode("Москва")
+        assertTrue(!geocode.isNan())
     }
 }

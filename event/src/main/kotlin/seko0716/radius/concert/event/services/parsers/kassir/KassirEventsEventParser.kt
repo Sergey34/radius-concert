@@ -43,11 +43,11 @@ class KassirEventsEventParser : EventParser {
             }) { null } ?: continue
 
             html.run {
-                select("div.caption").mapNotNull {
+                select("div.caption").mapNotNull { event ->
                     attempt({
-                        val content = it.select("a.btn.btn-primary.btn-lg.js-ec-click-product").attr("data-ec-item")
+                        val content = event.select("a.btn.btn-primary.btn-lg.js-ec-click-product").attr("data-ec-item")
                         val data = mapper.readValue<Map<String, Any>>(content)
-                        val url = it.select("div.title").select("a").attr("href")
+                        val url = event.select("div.title").select("a").attr("href")
                         Event(
                             city = city,
                             url = url,

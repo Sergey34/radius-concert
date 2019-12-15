@@ -2,7 +2,6 @@ package seko0716.radius.concert.event.services.parsers.kassir
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import org.bson.types.ObjectId
 import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
 import seko0716.radius.concert.event.config.addToCollection
@@ -46,7 +45,7 @@ class KassirEventsEventParser : EventParser {
                             maxPrice = data["maxPrice"] as Int,
                             minPrice = data["minPrice"] as Int,
                             thirdPartyId = data["id"].toString(),
-                            id = ObjectId.get(),
+                            id = "",
                             endDate = parseDate(data, "end_max"),
                             startDate = parseDate(data, "start_min")
                         )

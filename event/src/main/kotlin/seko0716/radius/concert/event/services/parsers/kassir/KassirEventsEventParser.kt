@@ -62,7 +62,7 @@ class KassirEventsEventParser : EventParser {
             name = data["name"] as String,
             category = data["category"] as String,
             categoryId = data["category_id"].toString(),
-            image = data["image"] as String,
+            image = data["image"] as String? ?: "",
             maxPrice = data["maxPrice"] as Int? ?: 0,
             minPrice = data["minPrice"] as Int? ?: 0,
             thirdPartyId = data["id"].toString(),
@@ -81,7 +81,7 @@ class KassirEventsEventParser : EventParser {
 
     override fun type() = type
 
-    private fun parseDate(data: Map<String, Any>, type: String): LocalDateTime {
+    private suspend fun parseDate(data: Map<String, Any>, type: String): LocalDateTime {
         return when (val date = data["date"]) {
             is String -> LocalDateTime.parse(date, dateFormat)
             is Map<*, *> -> LocalDateTime.parse(date[type] as String, dateFormat)

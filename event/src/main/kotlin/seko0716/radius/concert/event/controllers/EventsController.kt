@@ -1,4 +1,4 @@
-package seko0716.radius.concert.event.contrallsers
+package seko0716.radius.concert.event.controllers
 
 import kotlinx.coroutines.flow.Flow
 import org.springframework.beans.factory.annotation.Autowired

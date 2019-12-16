@@ -10,18 +10,10 @@ fun Point.isNan(): Boolean {
     return x.isNaN() || y.isNaN()
 }
 
-inline fun <T, R> T.attempt(block: (T) -> R, default: R): R {
+inline fun <T, R> T.attempt(block: (T) -> R, onError: (e: Exception) -> R): R {
     return try {
         block(this)
     } catch (e: Exception) {
-        default
-    }
-}
-
-inline fun <T, R> T.attempt(block: (T) -> R, onError: () -> R): R {
-    return try {
-        block(this)
-    } catch (e: Exception) {
-        onError()
+        onError(e)
     }
 }

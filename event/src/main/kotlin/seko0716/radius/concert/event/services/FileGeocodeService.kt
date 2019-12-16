@@ -15,15 +15,19 @@ class FileGeocodeService @Autowired constructor(
     companion object {
         @JvmField
         val geocodes: MutableMap<String, Point> = mutableMapOf()
+        const val RAW: String = "row"
+        const val CITY: String = "Город"
+        const val X: String = "Широта"
+        const val Y: String = "Долгота"
     }
 
     @PostConstruct
     override fun initGeocodes() {
         Jsoup.parse(File(path2Geocodes).readText())
-            .select("row").map {
-                it.select("Город").text() to Point(
-                    it.select("Широта").text().toDouble(),
-                    it.select("Долгота").text().toDouble()
+            .select(RAW).map {
+                it.select(CITY).text() to Point(
+                    it.select(X).text().toDouble(),
+                    it.select(Y).text().toDouble()
                 )
             }.toMap(geocodes)
     }

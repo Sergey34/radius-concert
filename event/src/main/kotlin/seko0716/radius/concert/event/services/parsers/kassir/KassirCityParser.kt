@@ -1,6 +1,5 @@
 package seko0716.radius.concert.event.services.parsers.kassir
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
@@ -17,17 +16,19 @@ class KassirCityParser @Autowired constructor(
 ) : CityParser {
     companion object {
         const val URL: String = "https://www.kassir.ru/"
-        @JvmField
-        val mapper = jacksonObjectMapper()
+        const val TYPE = "Kassir"
+        const val CSS_QUERY_CITIES = "ul.cities"
+        const val CSS_QUERY_CITY = "a"
+        const val ATTR_HREF = "href"
     }
 
     override suspend fun parse(): List<City> {
         return withContext(Dispatchers.IO) {
             Jsoup.connect(URL).get()
         }.run {
-            select("ul.cities")
-                .flatMap { it.select("a") }
-                .map { City("Kassir", it.attr("href"), it.text(), geocodeService.getGeocode(it.text())) }
+            select(CSS_QUERY_CITIES)
+                .flatMap { it.select(CSS_QUERY_CITY) }
+                .map { City(TYPE, it.attr(ATTR_HREF), it.text(), geocodeService.getGeocode(it.text())) }
         }
     }
 }

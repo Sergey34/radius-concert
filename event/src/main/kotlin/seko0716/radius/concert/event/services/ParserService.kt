@@ -23,8 +23,9 @@ class ParserService @Autowired constructor(
             .groupBy { it.type }
             .map { entry ->
                 async {
-                    val parser = eventParsers.find { it.type() == entry.key }
-                    entry.value.map { async { parser?.parse(it) ?: listOf() } }.flatMap { it.await() }
+                    eventParsers.find { it.type() == entry.key }?.run {
+                        entry.value.map { async { parse(it) } }.flatMap { it.await() }
+                    } ?: listOf()
                 }
             }
             .flatMap { it.await() }

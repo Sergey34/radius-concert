@@ -25,7 +25,7 @@ class FileGeocodeService @Autowired constructor(
     override fun initGeocodes() {
         Jsoup.parse(File(path2Geocodes).readText())
             .select(RAW).map {
-                it.select(CITY).text() to Point(
+                it.select(CITY).text().toLowerCase() to Point(
                     it.select(X).text().toDouble(),
                     it.select(Y).text().toDouble()
                 )
@@ -33,6 +33,6 @@ class FileGeocodeService @Autowired constructor(
     }
 
     override suspend fun getGeocode(name: String): Point {
-        return geocodes[name] ?: Point(Double.NaN, Double.NaN)
+        return geocodes[name.toLowerCase()] ?: Point(Double.NaN, Double.NaN)
     }
 }

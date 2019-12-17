@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+</head>
+<body>
+<form id="searchForm">
+    <input name="city" placeholder="Search..." type="text"/>
+    <input type="submit" value="Search"/>
+</form>
+
+<table id="cites">
+
+</table>
+
+<div id="result"></div>
+<script>
+    $("#searchForm").submit(function (event) {
+        event.preventDefault();
+        let $form = $(this);
+        let city = $form.find('input[name="city"]').val();
+
+        $.get(`https://geocode-maps.yandex.ru/1.x/?apikey=d8d80a96-bfba-4810-baaf-e4a249cb1729&format=json&geocode=${encodeURI(city)}`, function (data) {
+            let filterd = data.response.GeoObjectCollection.featureMember.map(it => {
+                const point = it.GeoObject.Point.pos.split(" ");
+                const x = parseFloat(point[0]);
+                const y = parseFloat(point[1]);
+
+                return {
+                    name: it.GeoObject.name,
+                    description: it.GeoObject.description,
+                    point: {x: x, y: y}
+                }
+            });
+
+            const template = "{{#cites}}\n" +
+                "<tr>\n" +
+                "    <td>{{name}}</td>\n" +
+                "    <td>{{description}}</td>\n" +
+                "</tr>\n" +
+                "{{/cites}}";
+
+            $(document).ready(function () {
+                let info = Mustache.render(template, {cites: filterd});
+                $('#cites').html(info);
+            });
+            console.log(filterd);
+        });
+    });
+</script>
+</body>
+</html>

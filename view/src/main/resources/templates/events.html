@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Harborlights - Free Bootstrap 4 Template by Colorlib</title>
     <meta charset="utf-8">
@@ -28,27 +28,9 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-        <a class="navbar-brand" href="index.html">Harbor<span>lights</span></a>
-        <button aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
-                data-target="#ftco-nav" data-toggle="collapse" type="button">
-            <span class="oi oi-menu"></span> Menu
-        </button>
-
-        <div class="collapse navbar-collapse" id="ftco-nav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                <li class="nav-item active"><a class="nav-link" href="rooms.html">Our Rooms</a></li>
-                <li class="nav-item"><a class="nav-link" href="restaurant.html">Restaurant</a></li>
-                <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
-                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:insert="fragments/navbar.html"/>
 <!-- END nav -->
+
 <div class="hero-wrap" style="background-image: url('/images/bg_3.jpg');">
     <div class="overlay"></div>
     <div class="container">
@@ -83,7 +65,7 @@
                                     class="ion-ios-star"></span><span class="ion-ios-star"></span></p>
                             <p class="mb-0"><span class="price mr-1">$120.00</span> <span class="per">per night</span>
                             </p>
-                            <h3 class="mb-3"><a href="rooms.html">King Room</a></h3>
+                            <h3 class="mb-3"><a href="events.html">King Room</a></h3>
                             <p class="pt-1"><a class="btn-custom px-3 py-2 rounded" href="rooms-single.html">View
                                 Details <span class="icon-long-arrow-right"></span></a></p>
                         </div>
@@ -100,7 +82,7 @@
                                     class="ion-ios-star"></span><span class="ion-ios-star"></span></p>
                             <p class="mb-0"><span class="price mr-1">$120.00</span> <span class="per">per night</span>
                             </p>
-                            <h3 class="mb-3"><a href="rooms.html">Suite Room</a></h3>
+                            <h3 class="mb-3"><a href="events.html">Suite Room</a></h3>
                             <p class="pt-1"><a class="btn-custom px-3 py-2 rounded" href="rooms-single.html">View
                                 Details <span class="icon-long-arrow-right"></span></a></p>
                         </div>
@@ -118,7 +100,7 @@
                                     class="ion-ios-star"></span><span class="ion-ios-star"></span></p>
                             <p class="mb-0"><span class="price mr-1">$120.00</span> <span class="per">per night</span>
                             </p>
-                            <h3 class="mb-3"><a href="rooms.html">Family Room</a></h3>
+                            <h3 class="mb-3"><a href="events.html">Family Room</a></h3>
                             <p class="pt-1"><a class="btn-custom px-3 py-2 rounded" href="rooms-single.html">View
                                 Details <span class="icon-long-arrow-right"></span></a></p>
                         </div>
@@ -135,7 +117,7 @@
                                     class="ion-ios-star"></span><span class="ion-ios-star"></span></p>
                             <p class="mb-0"><span class="price mr-1">$120.00</span> <span class="per">per night</span>
                             </p>
-                            <h3 class="mb-3"><a href="rooms.html">Deluxe Room</a></h3>
+                            <h3 class="mb-3"><a href="events.html">Deluxe Room</a></h3>
                             <p class="pt-1"><a class="btn-custom px-3 py-2 rounded" href="rooms-single.html">View
                                 Details <span class="icon-long-arrow-right"></span></a></p>
                         </div>
@@ -153,7 +135,7 @@
                                     class="ion-ios-star"></span><span class="ion-ios-star"></span></p>
                             <p class="mb-0"><span class="price mr-1">$120.00</span> <span class="per">per night</span>
                             </p>
-                            <h3 class="mb-3"><a href="rooms.html">Luxury Room</a></h3>
+                            <h3 class="mb-3"><a href="events.html">Luxury Room</a></h3>
                             <p class="pt-1"><a class="btn-custom px-3 py-2 rounded" href="rooms-single.html">View
                                 Details <span class="icon-long-arrow-right"></span></a></p>
                         </div>
@@ -170,7 +152,7 @@
                                     class="ion-ios-star"></span><span class="ion-ios-star"></span></p>
                             <p class="mb-0"><span class="price mr-1">$120.00</span> <span class="per">per night</span>
                             </p>
-                            <h3 class="mb-3"><a href="rooms.html">Superior Room</a></h3>
+                            <h3 class="mb-3"><a href="events.html">Superior Room</a></h3>
                             <p class="pt-1"><a class="btn-custom px-3 py-2 rounded" href="rooms-single.html">View
                                 Details <span class="icon-long-arrow-right"></span></a></p>
                         </div>
@@ -182,73 +164,7 @@
 </section>
 
 
-<footer class="ftco-footer ftco-section img" style="background-image: url(/images/bg_4.jpg);">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-md">
-                <div class="ftco-footer-widget mb-4">
-                    <h2 class="ftco-heading-2">Harbor Lights</h2>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there
-                        live the blind texts.</p>
-                    <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                        <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                        <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                        <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="ftco-footer-widget mb-4 ml-md-5">
-                    <h2 class="ftco-heading-2">Useful Links</h2>
-                    <ul class="list-unstyled">
-                        <li><a class="py-2 d-block" href="#">Blog</a></li>
-                        <li><a class="py-2 d-block" href="#">Rooms</a></li>
-                        <li><a class="py-2 d-block" href="#">Amenities</a></li>
-                        <li><a class="py-2 d-block" href="#">Gift Card</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="ftco-footer-widget mb-4">
-                    <h2 class="ftco-heading-2">Privacy</h2>
-                    <ul class="list-unstyled">
-                        <li><a class="py-2 d-block" href="#">Career</a></li>
-                        <li><a class="py-2 d-block" href="#">About Us</a></li>
-                        <li><a class="py-2 d-block" href="#">Contact Us</a></li>
-                        <li><a class="py-2 d-block" href="#">Services</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="ftco-footer-widget mb-4">
-                    <h2 class="ftco-heading-2">Have a Questions?</h2>
-                    <div class="block-23 mb-3">
-                        <ul>
-                            <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span>
-                            </li>
-                            <li><a href="#"><span class="icon icon-phone"></span><span
-                                    class="text">+2 392 3929 210</span></a></li>
-                            <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 text-center">
-
-                <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                    All rights reserved | This template is made with <i aria-hidden="true"
-                                                                        class="icon-heart color-danger"></i> by <a
-                            href="https://colorlib.com" target="_blank">Colorlib</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            </div>
-        </div>
-    </div>
-</footer>
+<div th:insert="fragments/footer.html"/>
 
 
 <!-- loader -->

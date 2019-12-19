@@ -89,16 +89,16 @@
                         <div class="col-md d-flex py-md-4">
                             <div class="form-group align-self-stretch d-flex align-items-end">
                                 <div class="wrap align-self-stretch py-3 px-4">
-                                    <label for="#">Где вы?</label>
-                                    <input class="form-control" placeholder="Воскресенское" type="text">
+                                    <label for="city" id="l_city">Где вы?</label>
+                                    <input class="form-control" id="city" placeholder="Воскресенское" type="text">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md d-flex py-md-4">
                             <div class="form-group align-self-stretch d-flex align-items-end">
                                 <div class="wrap align-self-stretch py-3 px-4">
-                                    <label for="#">Категория</label>
-                                    <select class="form-control" id="" name="">
+                                    <label for="category" id="l_categoty">Категория</label>
+                                    <select class="form-control" id="category" name="">
                                         <option value="">Все</option>
                                         <option value="">Концерты</option>
                                         <option value="">Театры</option>
@@ -109,11 +109,11 @@
                         <div class="col-md d-flex py-md-4">
                             <div class="form-group align-self-stretch d-flex align-items-end">
                                 <div class="wrap align-self-stretch py-3 px-4">
-                                    <label for="#">Расстояние</label>
+                                    <label for="distance" id="l_distance">Расстояние</label>
                                     <div class="form-field">
                                         <div class="select-wrap">
                                             <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                            <input class="form-control" placeholder="1000" type="number">
+                                            <input class="form-control" id="distance" placeholder="1000" type="number">
                                         </div>
                                     </div>
                                 </div>
@@ -122,14 +122,17 @@
                         <div class="col-md d-flex py-md-4">
                             <div class="form-group align-self-stretch d-flex align-items-end">
                                 <div class="wrap align-self-stretch py-3 px-4">
-                                    <label for="#">Когда?</label>
-                                    <input class="form-control checkin_date" placeholder="Выбери дату" type="text">
+                                    <label for="when" id="l_when">Когда?</label>
+                                    <input class="form-control checkin_date" id="when" placeholder="Выбери дату"
+                                           type="text">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md d-flex">
                             <div class="form-group d-flex align-self-stretch">
-                                <a class="btn btn-primary py-5 py-md-3 px-4 align-self-stretch d-block" href="#"><span>Найти подходящие <small>приятного отдыха</small></span></a>
+                                <a class="btn btn-primary py-5 py-md-3 px-4 align-self-stretch d-block" href="#"
+                                   id="search"
+                                   onclick="changeLink();"><span>Найти подходящие <small>приятного отдыха</small></span></a>
                             </div>
                         </div>
                     </div>
@@ -213,125 +216,17 @@
     </div>
 </section>
 
-<section class="ftco-section ftco-wrap-about ftco-no-pt ftco-no-pb">
-    <div class="container">
-        <div class="row no-gutters">
-            <div class="col-md-7 order-md-last d-flex">
-                <div class="img img-1 mr-md-2 ftco-animate" style="background-image: url(images/about-1.jpg);"></div>
-                <div class="img img-2 ml-md-2 ftco-animate" style="background-image: url(images/about-2.jpg);"></div>
-            </div>
-            <div class="col-md-5 wrap-about pb-md-3 ftco-animate pr-md-5 pb-md-5 pt-md-4">
-                <div class="heading-section mb-4 my-5 my-md-0">
-                    <span class="subheading">About Harbor Lights Hotel</span>
-                    <h2 class="mb-4">Harbor Lights Hotel the Most Recommended Hotel All Over the World</h2>
-                </div>
-                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live
-                    the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large
-                    language ocean.</p>
-                <p><a class="btn btn-secondary rounded" href="#">Reserve Your Room Now</a></p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="testimony-section">
-    <div class="container">
-        <div class="row no-gutters ftco-animate justify-content-center">
-            <div class="col-md-5 d-flex">
-                <div class="testimony-img aside-stretch-2"
-                     style="background-image: url(images/testimony-img.jpg);"></div>
-            </div>
-            <div class="col-md-7 py-5 pl-md-5">
-                <div class="py-md-5">
-                    <div class="heading-section ftco-animate mb-4">
-                        <span class="subheading">Testimony</span>
-                        <h2 class="mb-0">Happy Customer</h2>
-                    </div>
-                    <div class="carousel-testimony owl-carousel ftco-animate">
-                        <div class="item">
-                            <div class="testimony-wrap pb-4">
-                                <div class="text">
-                                    <p class="mb-4">A small river named Duden flows by their place and supplies it with
-                                        the necessary regelialia. It is a paradisematic country, in which roasted parts
-                                        of sentences fly into your mouth.</p>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="user-img" style="background-image: url(images/person_1.jpg)">
-                                    </div>
-                                    <div class="pos ml-3">
-                                        <p class="name">Gerald Hodson</p>
-                                        <span class="position">Businessman</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimony-wrap pb-4">
-                                <div class="text">
-                                    <p class="mb-4">A small river named Duden flows by their place and supplies it with
-                                        the necessary regelialia. It is a paradisematic country, in which roasted parts
-                                        of sentences fly into your mouth.</p>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="user-img" style="background-image: url(images/person_2.jpg)">
-                                    </div>
-                                    <div class="pos ml-3">
-                                        <p class="name">Gerald Hodson</p>
-                                        <span class="position">Businessman</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimony-wrap pb-4">
-                                <div class="text">
-                                    <p class="mb-4">A small river named Duden flows by their place and supplies it with
-                                        the necessary regelialia. It is a paradisematic country, in which roasted parts
-                                        of sentences fly into your mouth.</p>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="user-img" style="background-image: url(images/person_3.jpg)">
-                                    </div>
-                                    <div class="pos ml-3">
-                                        <p class="name">Gerald Hodson</p>
-                                        <span class="position">Businessman</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimony-wrap pb-4">
-                                <div class="text">
-                                    <p class="mb-4">A small river named Duden flows by their place and supplies it with
-                                        the necessary regelialia. It is a paradisematic country, in which roasted parts
-                                        of sentences fly into your mouth.</p>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="user-img" style="background-image: url(images/person_4.jpg)">
-                                    </div>
-                                    <div class="pos ml-3">
-                                        <p class="name">Gerald Hodson</p>
-                                        <span class="position">Businessman</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <section class="ftco-section ftco-no-pb ftco-room">
     <div class="container-fluid px-0">
         <div class="row no-gutters justify-content-center mb-5 pb-3">
             <div class="col-md-7 heading-section text-center ftco-animate">
-                <span class="subheading">Harbor Lights Rooms</span>
-                <h2 class="mb-4">Hotel Master's Rooms</h2>
+                <span class="subheading">Ближайшие мероприятия</span>
+                <h2 class="mb-4">Саратов</h2>
+                <!--                определить город по ip -->
             </div>
         </div>
-        <div class="row no-gutters">
+        <div class="row no-gutters" id="events">
+
             <div class="col-lg-6">
                 <div class="room-wrap d-md-flex ftco-animate">
                     <a class="img" href="#" style="background-image: url(images/room-6.jpg);"></a>
@@ -440,114 +335,12 @@
     </div>
 </section>
 
-
-<section class="ftco-section ftco-menu bg-light">
-    <div class="container-fluid px-md-4">
-        <div class="row justify-content-center mb-5 pb-3">
-            <div class="col-md-7 heading-section text-center ftco-animate">
-                <span class="subheading">Restaurant</span>
-                <h2>Restaurant</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-xl-4 d-flex">
-                <div class="pricing-entry rounded d-flex ftco-animate">
-                    <div class="img" style="background-image: url(images/menu-1.jpg);"></div>
-                    <div class="desc p-4">
-                        <div class="d-md-flex text align-items-start">
-                            <h3><span>Grilled Crab with Onion</span></h3>
-                            <span class="price">$20.00</span>
-                        </div>
-                        <div class="d-block">
-                            <p>A small river named Duden flows by their place and supplies</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-xl-4 d-flex">
-                <div class="pricing-entry rounded d-flex ftco-animate">
-                    <div class="img" style="background-image: url(images/menu-2.jpg);"></div>
-                    <div class="desc p-4">
-                        <div class="d-md-flex text align-items-start">
-                            <h3><span>Grilled Crab with Onion</span></h3>
-                            <span class="price">$20.00</span>
-                        </div>
-                        <div class="d-block">
-                            <p>A small river named Duden flows by their place and supplies</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-xl-4 d-flex">
-                <div class="pricing-entry rounded d-flex ftco-animate">
-                    <div class="img" style="background-image: url(images/menu-3.jpg);"></div>
-                    <div class="desc p-4">
-                        <div class="d-md-flex text align-items-start">
-                            <h3><span>Grilled Crab with Onion</span></h3>
-                            <span class="price">$20.00</span>
-                        </div>
-                        <div class="d-block">
-                            <p>A small river named Duden flows by their place and supplies</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-xl-4 d-flex">
-                <div class="pricing-entry rounded d-flex ftco-animate">
-                    <div class="img" style="background-image: url(images/menu-4.jpg);"></div>
-                    <div class="desc p-4">
-                        <div class="d-md-flex text align-items-start">
-                            <h3><span>Grilled Crab with Onion</span></h3>
-                            <span class="price">$20.00</span>
-                        </div>
-                        <div class="d-block">
-                            <p>A small river named Duden flows by their place and supplies</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-xl-4 d-flex">
-                <div class="pricing-entry rounded d-flex ftco-animate">
-                    <div class="img" style="background-image: url(images/menu-5.jpg);"></div>
-                    <div class="desc p-4">
-                        <div class="d-md-flex text align-items-start">
-                            <h3><span>Grilled Crab with Onion</span></h3>
-                            <span class="price">$20.00</span>
-                        </div>
-                        <div class="d-block">
-                            <p>A small river named Duden flows by their place and supplies</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-xl-4 d-flex">
-                <div class="pricing-entry rounded d-flex ftco-animate">
-                    <div class="img" style="background-image: url(images/menu-6.jpg);"></div>
-                    <div class="desc p-4">
-                        <div class="d-md-flex text align-items-start">
-                            <h3><span>Grilled Crab with Onion</span></h3>
-                            <span class="price">$20.00</span>
-                        </div>
-                        <div class="d-block">
-                            <p>A small river named Duden flows by their place and supplies</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 text-center ftco-animate">
-                <p><a class="btn btn-primary rounded" href="#">View All Menu</a></p>
-            </div>
-        </div>
-    </div>
-</section>
-
-
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center mb-5 pb-3">
             <div class="col-md-7 heading-section text-center ftco-animate">
-                <span class="subheading">Read Blog</span>
-                <h2>Recent Blog</h2>
+                <span class="subheading">Читать блог</span>
+                <h2>Недавние публикации</h2>
             </div>
         </div>
         <div class="row d-flex">
@@ -598,59 +391,6 @@
                             texts</a></h3>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="instagram">
-    <div class="container-fluid">
-        <div class="row no-gutters justify-content-center pb-5">
-            <div class="col-md-7 text-center heading-section ftco-animate">
-                <span class="subheading">Photos</span>
-                <h2><span>Instagram</span></h2>
-            </div>
-        </div>
-        <div class="row no-gutters">
-            <div class="col-sm-12 col-md ftco-animate">
-                <a class="insta-img image-popup" href="images/insta-1.jpg"
-                   style="background-image: url(images/insta-1.jpg);">
-                    <div class="icon d-flex justify-content-center">
-                        <span class="icon-instagram align-self-center"></span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-sm-12 col-md ftco-animate">
-                <a class="insta-img image-popup" href="images/insta-2.jpg"
-                   style="background-image: url(images/insta-2.jpg);">
-                    <div class="icon d-flex justify-content-center">
-                        <span class="icon-instagram align-self-center"></span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-sm-12 col-md ftco-animate">
-                <a class="insta-img image-popup" href="images/insta-3.jpg"
-                   style="background-image: url(images/insta-3.jpg);">
-                    <div class="icon d-flex justify-content-center">
-                        <span class="icon-instagram align-self-center"></span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-sm-12 col-md ftco-animate">
-                <a class="insta-img image-popup" href="images/insta-4.jpg"
-                   style="background-image: url(images/insta-4.jpg);">
-                    <div class="icon d-flex justify-content-center">
-                        <span class="icon-instagram align-self-center"></span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-sm-12 col-md ftco-animate">
-                <a class="insta-img image-popup" href="images/insta-5.jpg"
-                   style="background-image: url(images/insta-5.jpg);">
-                    <div class="icon d-flex justify-content-center">
-                        <span class="icon-instagram align-self-center"></span>
-                    </div>
-                </a>
             </div>
         </div>
     </div>
@@ -737,6 +477,7 @@
 
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery-migrate-3.0.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery.easing.1.3.js"></script>
@@ -748,9 +489,73 @@
 <script src="js/jquery.animateNumber.min.js"></script>
 <script src="js/bootstrap-datepicker.js"></script>
 <script src="js/scrollax.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-<script src="js/google-map.js"></script>
 <script src="js/main.js"></script>
+
+
+<script>
+    const template = "{{#.}}\n" +
+        "<div class=\"col-lg-6\">\n" +
+        "    <div class=\"room-wrap d-md-flex ftco-animate fadeInUp\">\n" +
+        "        <a class=\"img  {{#order_md_last}}order-md-last{{/order_md_last}}\" href=\"#\" style=\"background-image: url({{image}});\"></a>\n" +
+        "        <div class=\"half {{class}} d-flex align-items-center\">\n" +
+        "            <div class=\"text p-4 text-center\">\n" +
+
+        "                <p class=\"mb-0\"><span class=\"price mr-1\">{{minPrice}}-{{maxPrice}}р</span>" +
+        "                <p class=\"mb-0\"><span class=\"price mr-1\">{{startDate}}-{{endDate}}</span>" +
+        "                <h3 class=\"mb-3\"><a href=\"rooms.html\">{{name}}</a></h3>\n" +
+        "                <p class=\"pt-1\"><a class=\"btn-custom px-3 py-2 rounded\" href=\"{{url}}\">Подробнее ({{#city}}{{type}}{{/city}})\n" +
+        "                    <span class=\"icon-long-arrow-right\"></span></a></p>\n" +
+        "            </div>\n" +
+        "        </div>\n" +
+        "    </div>\n" +
+        "</div>" +
+        "{{/.}}";
+    $.get(`/api/events`, function (data) {
+
+        $(document).ready(function () {
+            let slice = data.slice(0, 6);
+            for (let i = 0, order_md_last = 2; i < slice.length; i++, order_md_last++) {
+                console.log(order_md_last);
+                if (order_md_last === 0 || order_md_last === 1) {
+                    slice[i].order_md_last = true;
+                    slice[i].class = 'right-arrow';
+                } else {
+                    slice[i].class = 'left-arrow';
+                }
+                if (order_md_last === 3) {
+                    order_md_last = -1;
+                }
+            }
+            console.log(slice);
+            let events = Mustache.render(template, slice);
+            $('#events').html(events);
+            contentWayPoint2()
+        });
+    });
+</script>
+<script>
+    function changeLink() {
+        const currentCity = $('#city').val();
+        const distance = $('#distance').val();
+        let valid = true;
+        if (currentCity === null || currentCity === undefined || currentCity.length < 2) {
+            $('#l_city').addClass("text-danger");
+            valid = false
+        } else {
+            $('#l_city').removeClass("text-danger");
+        }
+        if (distance === null || distance === undefined || distance.length < 2) {
+            $('#l_distance').addClass("text-danger");
+            valid = false
+        } else {
+            $('#l_distance').removeClass("text-danger");
+        }
+        if (!valid) {
+            return valid;
+        }
+        document.getElementById('search').href = `/events/${currentCity}/${distance}/KILOMETERS`;
+    }
+</script>
 
 </body>
 </html>

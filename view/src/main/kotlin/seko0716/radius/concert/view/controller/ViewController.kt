@@ -13,7 +13,7 @@ class ViewController {
         return "index"
     }
 
-    @GetMapping("/events/{currentCity}/{distance}/{metric}")
+    @GetMapping("/events/**")
     fun events(model: Model): String {
         return "events"
     }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.geo.Point
 import org.springframework.stereotype.Component
+import seko0716.radius.concert.event.controllers.GeocodeInfo
 import java.io.File
 import javax.annotation.PostConstruct
 
@@ -34,5 +35,11 @@ class FileGeocodeService @Autowired constructor(
 
     override suspend fun getGeocode(name: String): Point {
         return geocodes[name.toLowerCase()] ?: Point(Double.NaN, Double.NaN)
+    }
+
+    override suspend fun addGeocodes(geocodesInfo: List<GeocodeInfo>) {
+        geocodesInfo.forEach {
+            geocodes[it.cityName.toLowerCase()] = it.point
+        }
     }
 }

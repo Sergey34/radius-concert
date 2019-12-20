@@ -3,10 +3,8 @@ package seko0716.radius.concert.event.controllers
 import kotlinx.coroutines.flow.Flow
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.geo.Metrics
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.data.geo.Point
+import org.springframework.web.bind.annotation.*
 import seko0716.radius.concert.event.domains.Event
 import seko0716.radius.concert.event.services.EventService
 import seko0716.radius.concert.event.services.ParserService
@@ -18,8 +16,14 @@ class EventsController @Autowired constructor(
     private val parserService: ParserService
 ) {
     @GetMapping("/events")
-    suspend fun getAllEvents(): Flow<Event> {
-        return eventService.getAllEvents()
+    suspend fun getAllEvents(
+        @RequestParam(
+            required = false,
+            defaultValue = "50",
+            name = "count"
+        ) count: Int
+    ): Flow<Event> {
+        return eventService.getAllEvents(count)
     }
 
     @GetMapping("/update")
@@ -31,8 +35,18 @@ class EventsController @Autowired constructor(
     suspend fun getEvents(
         @PathVariable currentCity: String,
         @PathVariable distance: Double,
-        @PathVariable metric: Metrics
+        @PathVariable metric: Metrics,
+        @RequestParam(
+            required = false,
+            defaultValue = "NaN",
+            name = "x"
+        ) x: Double,
+        @RequestParam(
+            required = false,
+            defaultValue = "NaN",
+            name = "y"
+        ) y: Double
     ): Flow<Event> {
-        return eventService.getEvents(currentCity, distance, metric)
+        return eventService.getEvents(currentCity, distance, metric, Point(x, y))
     }
 }

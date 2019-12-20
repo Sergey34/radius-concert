@@ -38,6 +38,10 @@ class EventRepository @Autowired constructor(
         return mongoTemplate.findAll<Event>().asFlow()
     }
 
+    fun getEvents(count: Int): Flow<Event> {
+        return mongoTemplate.find<Event>(Query().limit(count)).asFlow()
+    }
+
 }
 
 @Repository

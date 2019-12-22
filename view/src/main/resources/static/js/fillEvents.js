@@ -16,7 +16,17 @@ const template = "{{#.}}\n" +
     "</div>" +
     "{{/.}}";
 
-function fillEvents(events) {
+let lastLoaded
+
+function fillEvents(from, to) {
+    if (to > events_stored.length) {
+        to = events_stored;
+    }
+    if (from >= to) {
+        return
+    }
+    lastLoaded = to;
+    let events = events_stored.slice(from, to);
     for (let i = 0, order_md_last = 2; i < events.length; i++, order_md_last++) {
         if (order_md_last === 0 || order_md_last === 1) {
             events[i].order_md_last = true;
@@ -29,6 +39,6 @@ function fillEvents(events) {
         }
     }
     let eventsRender = Mustache.render(template, events);
-    $('#events').html(eventsRender);
+    $('#events').append(eventsRender);
     contentWayPoint();
 }

@@ -110,8 +110,12 @@
     if (x && y) {
         url = `${url}?x=${x}&y=${y}`;
     }
+    let events_stored = [];
     $.get(url)
-        .then(data => fillEvents(data))
+        .then(data => {
+            events_stored = data;
+            fillEvents(0, 50);
+        })
         .catch(err => {
             if (err.status !== 404) {
                 return

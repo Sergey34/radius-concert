@@ -97,31 +97,33 @@
 </div>
 
 <script>
-    const [city, distance, metric, x, y] = window.location.href.split('/').slice(4, 9);
-    $('#current_city').text(decodeURI(city));
+    const [city, distance, metric] = window.location.href.split('/').slice(4, 7);
 
     const citesTemplate = "{{#cites}}\n" +
-        "<a href=\"/events/{{city}}/{{distance}}/{{metric}}?x={{point.x}}&y={{point.y}}\">\n" +
-        "    <li class=\"list-group-item\">{{name}}, {{description}}</span>\n" +
+        "<a href=\"/events/{{nameForSearch}}/{{distance}}/{{metric}}\">\n" +
+        "    <li class=\"list-group-item\">{{name}}</span>\n" +
         "    </li></a>\n" +
         "{{/cites}}";
 
     let url = `/api/events/${city}/${distance}/${metric}`;
-    if (x && y) {
-        url = `${url}?x=${x}&y=${y}`;
-    }
     let events_stored = [];
     $.get(url)
         .then(data => {
-            events_stored = data;
-            fillEvents(0, 50);
+            if (data.length > 0) {
+                $('#current_city').text(data[0].city.name);
+                events_stored = data;
+                fillEvents(0, 50);
+            } else {
+                $('#current_city').text(decodeURI(city));
+            }
         })
         .catch(err => {
             if (err.status !== 404) {
                 return
             }
-            loadGeocode()
+            $.get(`/api/geocodes/${city}`)
                 .then(geocodes => {
+                    console.log(geocodes)
                     let cites = Mustache.render(citesTemplate, {
                         cites: geocodes,
                         distance: distance,
@@ -133,36 +135,8 @@
                         backdrop: 'static',
                         keyboard: false
                     });
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '/api/geocode',
-                        data: JSON.stringify({geocodes: geocodes}),
-                        contentType: 'application/json; charset=utf-8',
-                        dataType: 'json'
-                    }).catch(e => console.log(e));
-                })
-
+                });
         });
-
-    function loadGeocode() {
-        //https://github.com/Tereshchenko-N, Прости, но ты сам связался с Яндексом. I'm sorry, but you contacted Yandex yourself
-        return $.get(`https://geocode-maps.yandex.ru/1.x/?apikey=d8d80a96-bfba-4810-baaf-e4a249cb1729&format=json&geocode=${city}`)
-            .then(data => {
-                return Promise.resolve(data.response.GeoObjectCollection.featureMember.map(it => {
-                    const point = it.GeoObject.Point.pos.split(' ');
-                    const x = parseFloat(point[0]);
-                    const y = parseFloat(point[1]);
-
-                    return {
-                        name: it.GeoObject.name,
-                        description: it.GeoObject.description,
-                        point: {x: x, y: y},
-                        city: encodeURI(`${it.GeoObject.name}, ${it.GeoObject.description}`)
-                    }
-                }));
-            });
-    }
 
 </script>
 </body>

@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import seko0716.radius.concert.event.config.attempt
 import seko0716.radius.concert.event.domains.City
-import seko0716.radius.concert.event.services.FileGeocodeService
+import seko0716.radius.concert.event.services.GeocodeService
 import seko0716.radius.concert.event.services.parsers.CityParser
 
 
 @Component
 class KassirCityParser @Autowired constructor(
-    val geocodeService: FileGeocodeService
+    val geocodeService: GeocodeService
 ) : CityParser {
     companion object {
         const val URL: String = "https://www.kassir.ru/"
@@ -29,7 +29,10 @@ class KassirCityParser @Autowired constructor(
         }.run {
             select(CSS_QUERY_CITIES)
                 .flatMap { it.select(CSS_QUERY_CITY) }
-                .map { City(TYPE, it.attr(ATTR_HREF), it.text(), geocodeService.getGeocode(it.text())) }
+                .map {
+                    val position = geocodeService.getGeocode("россия, ${it.text()}")
+                    City(TYPE, it.attr(ATTR_HREF), it.text(), position)
+                }
         }
     }) { e -> e.printStackTrace(); listOf() }
 }

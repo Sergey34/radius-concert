@@ -3,7 +3,6 @@ package seko0716.radius.concert.event.controllers
 import kotlinx.coroutines.flow.Flow
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.geo.Metrics
-import org.springframework.data.geo.Point
 import org.springframework.web.bind.annotation.*
 import seko0716.radius.concert.event.domains.Event
 import seko0716.radius.concert.event.services.EventService
@@ -38,15 +37,10 @@ class EventsController @Autowired constructor(
         @PathVariable metric: Metrics,
         @RequestParam(
             required = false,
-            defaultValue = "NaN",
-            name = "x"
-        ) x: Double,
-        @RequestParam(
-            required = false,
-            defaultValue = "NaN",
-            name = "y"
-        ) y: Double
+            defaultValue = "Город",
+            name = "searchType"
+        ) searchType: String
     ): Flow<Event> {
-        return eventService.getEvents(currentCity, distance, metric, Point(x, y))
+        return eventService.getEvents(currentCity, distance, metric, searchType)
     }
 }

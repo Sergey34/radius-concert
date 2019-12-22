@@ -30,5 +30,5 @@ function fillEvents(events) {
     }
     let eventsRender = Mustache.render(template, events);
     $('#events').html(eventsRender);
-    contentWayPoint2();
+    contentWayPoint();
 }

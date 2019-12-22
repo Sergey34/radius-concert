@@ -1,7 +1,7 @@
 const template = "{{#.}}\n" +
     "<div class=\"col-lg-6\">\n" +
     "    <div class=\"room-wrap d-md-flex ftco-animate fadeInUp\">\n" +
-    "        <a class=\"img  {{#order_md_last}}order-md-last{{/order_md_last}}\" href=\"#\" style=\"background-image: url({{image}});\"></a>\n" +
+    "        <a class=\"img  {{#order_md_last}}order-md-last{{/order_md_last}}\" href=\"{{url}}\" style=\"background-image: url({{image}});\"></a>\n" +
     "        <div class=\"half {{class}} d-flex align-items-center\">\n" +
     "            <div class=\"text p-4 text-center\">\n" +
 

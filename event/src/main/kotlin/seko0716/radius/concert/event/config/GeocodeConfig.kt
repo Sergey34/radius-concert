@@ -23,7 +23,7 @@ class GeocodeConfig @Autowired constructor(
     @PostConstruct
     fun importGeocodes() {
         val distinctBy = mapper.readValue<List<Pair<String, SerderPoint>>>(File("geocodes.json"))
-            .map { Geocode(it.first.toLowerCase(), it.first, Point(it.second.x, it.second.y)) }
+            .map { Geocode(it.first.toLowerCase(), it.first, Point(it.second.y, it.second.x)) }
             .distinctBy { it.nameForSearch }
         distinctBy
             .let {

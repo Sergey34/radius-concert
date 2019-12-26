@@ -25,8 +25,7 @@ class GeocodeConfig @Autowired constructor(
         val distinctBy = mapper.readValue<List<Pair<String, SerderPoint>>>(File("geocodes.json"))
             .map { Geocode(it.first.toLowerCase(), it.first, Point(it.second.x, it.second.y)) }
             .distinctBy { it.nameForSearch }
-//            .slice(0..2)
-        val let = distinctBy
+        distinctBy
             .let {
                 mongoTemplate.insertAll(it)
             }

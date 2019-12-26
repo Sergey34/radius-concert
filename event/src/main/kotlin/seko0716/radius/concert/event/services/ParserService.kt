@@ -1,8 +1,12 @@
 package seko0716.radius.concert.event.services
 
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapConcat
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import seko0716.radius.concert.event.domains.Event
@@ -16,6 +20,7 @@ class ParserService @Autowired constructor(
     val eventParsers: List<EventParser>,
     val eventRepository: EventRepository
 ) {
+    @FlowPreview
     suspend fun updateData(): Flow<Event> = coroutineScope {
         val events = cityParsers
             .map { async { it.parse() } }
@@ -24,11 +29,12 @@ class ParserService @Autowired constructor(
             .map { entry ->
                 async {
                     eventParsers.find { it.type() == entry.key }?.run {
-                        entry.value.map { async { parse(it) } }.flatMap { it.await() }
-                    } ?: listOf()
+                        eventRepository.saveAll(entry.value.map { async { parse(it) } }.flatMap { it.await() })
+                    } ?: emptyFlow()
                 }
             }
-            .flatMap { it.await() }
-        eventRepository.saveAll(events)
+            .asFlow()
+            .flatMapConcat { it.await() }
+        events
     }
 }

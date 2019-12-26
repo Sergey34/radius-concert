@@ -4,6 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import org.springframework.stereotype.Component
 import seko0716.radius.concert.event.config.attempt
 import seko0716.radius.concert.event.domains.City
@@ -31,7 +32,7 @@ class KassirCityParser @Autowired constructor(
                 .flatMap { it.select(CSS_QUERY_CITY) }
                 .map {
                     val position = geocodeService.getGeocode("россия, ${it.text()}")
-                    City(TYPE, it.attr(ATTR_HREF), it.text(), position)
+                    City(TYPE, it.attr(ATTR_HREF), it.text(), GeoJsonPoint(position))
                 }
         }
     }) { e -> e.printStackTrace(); listOf() }

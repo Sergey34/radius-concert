@@ -30,7 +30,6 @@ class GeocodeConfig @Autowired constructor(
             .let {
                 mongoTemplate.insertAll(it)
             }
-        println(let)
     }
 }
 

@@ -19,6 +19,11 @@
     <dependencies>
         <dependency>
             <groupId>seko0716.redius.concert</groupId>
+            <artifactId>admin</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>seko0716.redius.concert</groupId>
             <artifactId>event</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

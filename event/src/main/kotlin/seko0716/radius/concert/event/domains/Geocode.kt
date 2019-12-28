@@ -10,6 +10,4 @@ data class Geocode(
     val nameForSearch: String,
     val name: String,
     val point: Point
-) {
-
-}
+)

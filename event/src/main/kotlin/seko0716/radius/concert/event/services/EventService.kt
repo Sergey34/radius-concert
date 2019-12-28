@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.geo.Distance
 import org.springframework.data.geo.Metrics
 import org.springframework.stereotype.Service
-import seko0716.radius.concert.event.config.isNan
 import seko0716.radius.concert.event.domains.Event
 import seko0716.radius.concert.event.repository.EventRepository
-import seko0716.radius.concert.event.services.exceptions.CityNotFoundException
+import seko0716.radius.concert.shared.exceptions.CityNotFoundException
+import seko0716.radius.concert.shared.isNan
 
 @Service
 class EventService @Autowired constructor(

@@ -4,7 +4,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.find
 import org.springframework.data.mongodb.core.findById
@@ -17,7 +16,6 @@ import seko0716.radius.concert.event.domains.Geocode
 @Repository
 class GeocodeRepository @Autowired constructor(
     private val mongoTemplate: ReactiveMongoTemplate,
-    private val mongoTemplate2: MongoTemplate,
     private val geocodeMongoRepository: GeocodeMongoRepository
 ) {
     fun saveAll(events: Collection<Geocode>): Flow<Geocode> {

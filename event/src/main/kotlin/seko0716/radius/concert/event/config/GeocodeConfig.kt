@@ -1,6 +1,6 @@
 package seko0716.radius.concert.event.config
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
@@ -9,7 +9,6 @@ import org.springframework.data.geo.Point
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.count
 import seko0716.radius.concert.event.domains.Geocode
-import seko0716.radius.concert.event.services.GeocodeService
 import java.io.File
 import javax.annotation.PostConstruct
 
@@ -17,13 +16,8 @@ import javax.annotation.PostConstruct
 @Configuration
 class GeocodeConfig @Autowired constructor(
     private val mongoTemplate: MongoTemplate,
-    private val mongodbGeocodeService: GeocodeService
+    private val mapper: ObjectMapper
 ) {
-    companion object {
-        @JvmField
-        val mapper = jacksonObjectMapper()
-    }
-
     @PostConstruct
     fun importGeocodes() {
         if (mongoTemplate.count<Geocode>() != 0L) {

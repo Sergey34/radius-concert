@@ -1,10 +1,11 @@
 package seko0716.radius.concert.event.services.parsers.kassir
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.nodes.Element
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import seko0716.radius.concert.event.config.addToCollection
 import seko0716.radius.concert.event.config.attempt
@@ -21,7 +22,9 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Component
-class KassirEventsEventParser : EventParser {
+class KassirEventsEventParser @Autowired constructor(
+    private val mapper: ObjectMapper
+) : EventParser {
     companion object {
         const val suffix: String = "/kassir/frontpage/page?p="
         const val TYPE: String = "Kassir"
@@ -30,8 +33,6 @@ class KassirEventsEventParser : EventParser {
         const val TITLE: String = "div.title"
         const val PLACE: String = "div.place"
         const val CAPTION: String = "div.caption"
-        @JvmField
-        val mapper = jacksonObjectMapper()
         @JvmField
         val dateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     }

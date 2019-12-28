@@ -25,6 +25,7 @@ class KassirCityParser @Autowired constructor(
     }
 
     override suspend fun parse() = attempt({
+        println(TYPE)
         withContext(Dispatchers.IO) {
             Jsoup.connect(URL).get()
         }.run {

@@ -39,6 +39,10 @@ class GeocodeRepository @Autowired constructor(
     suspend fun find(name: String): Geocode? {
         return mongoTemplate.findById<Geocode>(name).awaitFirstOrNull()
     }
+
+    suspend fun find(names: List<String>): Flow<Geocode> {
+        return mongoTemplate.find<Geocode>(Query.query(Criteria.where("nameForSearch").`in`(names))).asFlow()
+    }
 }
 
 @Repository

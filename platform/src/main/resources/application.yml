@@ -6,3 +6,11 @@ spring:
     events:
       dataset:
         refresh: '* * * * * ?'
+
+  mongodb:
+    embedded:
+      storage:
+        database-dir: ./.db
+
+  profiles:
+    active: load_geocode_config

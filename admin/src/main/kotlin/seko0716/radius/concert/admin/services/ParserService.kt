@@ -6,7 +6,9 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import seko0716.radius.concert.admin.services.parsers.CityParser
 import seko0716.radius.concert.admin.services.parsers.EventParser
@@ -28,5 +30,11 @@ class ParserService @Autowired constructor(
                 }
             }.asFlow().flatMapConcat { it.await() }
         events
+    }
+
+    @FlowPreview
+    @Scheduled(cron = "\${spring.application.events.dataset.refresh}")
+    fun updateScheduleData() = runBlocking {
+        val updateData = updateData()
     }
 }

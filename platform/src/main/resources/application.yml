@@ -5,7 +5,7 @@ spring:
         path: event/src/main/resources/geocodes.xml
     events:
       dataset:
-        refresh: '* * * * * ?'
+        refresh: '0 0 0 * * ?'
 
   mongodb:
     embedded:

@@ -1,5 +1,6 @@
 package seko0716.radius.concert.event.controllers
 
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.geo.Metrics
@@ -25,6 +26,7 @@ class EventsController @Autowired constructor(
         return eventService.getAllEvents(count)
     }
 
+    @FlowPreview
     @GetMapping("/update")
     suspend fun updateData(): Flow<Event> {
         return parserService.updateData()

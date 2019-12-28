@@ -109,12 +109,11 @@
     let events_stored = [];
     $.get(url)
         .then(data => {
+            let cityName = decodeURI(city);
+            $('#current_city').text(cityName.charAt(0).toUpperCase() + cityName.substring(1));
             if (data.length > 0) {
-                $('#current_city').text(data[0].city.name);
                 events_stored = data;
                 fillEvents(0, 50);
-            } else {
-                $('#current_city').text(decodeURI(city));
             }
         })
         .catch(err => {
@@ -123,7 +122,6 @@
             }
             $.get(`/api/geocodes/${city}`)
                 .then(geocodes => {
-                    console.log(geocodes)
                     let cites = Mustache.render(citesTemplate, {
                         cites: geocodes,
                         distance: distance,

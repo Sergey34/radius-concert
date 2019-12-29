@@ -5,6 +5,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.nodes.Element
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import seko0716.radius.concert.admin.services.parsers.EventParser
@@ -35,10 +37,12 @@ class KassirEventParser @Autowired constructor(
         const val CAPTION: String = "div.caption"
         @JvmField
         val dateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        @JvmField
+        val logger: Logger = LoggerFactory.getLogger(KassirEventParser::class.java)
     }
 
     override suspend fun parse(city: City): List<Event> {
-        println("$TYPE $city")
+        logger.debug("[{}] Start parse for {}", TYPE, city)
         var page = 0
         var cnt: Int
         val result: MutableList<Event> = mutableListOf()
@@ -53,6 +57,7 @@ class KassirEventParser @Autowired constructor(
             }
             page++
         } while (page < cnt)
+        logger.debug("[{}] End parse for {}", TYPE, city)
         return result
     }
 
@@ -93,18 +98,15 @@ class KassirEventParser @Autowired constructor(
                 )
             )
         )
-    }) { e -> e.printStackTrace(); null }
+    }) { e -> logger.warn("[$TYPE]", e); null }
 
-    private suspend fun getPage(url: String): KassirPage {
-        return attempt({
-            withContext(Dispatchers.IO) {
-                mapper.readValue<KassirPage>(URL(url))
-            }
-        }) { e -> e.printStackTrace(); return INVALID_KASSIR_PAGE }
-    }
+    private suspend fun getPage(url: String) = attempt({
+        withContext(Dispatchers.IO) {
+            mapper.readValue<KassirPage>(URL(url))
+        }
+    }) { e -> logger.warn("[$TYPE]", e); return INVALID_KASSIR_PAGE }
 
-    override fun type() =
-        TYPE
+    override fun type() = TYPE
 
     private suspend fun parseDate(data: Map<String, Any>, type: String): LocalDateTime {
         return when (val date = data["date"]) {

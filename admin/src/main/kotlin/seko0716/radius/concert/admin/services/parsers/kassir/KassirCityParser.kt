@@ -3,6 +3,8 @@ package seko0716.radius.concert.admin.services.parsers.kassir
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import org.springframework.stereotype.Component
@@ -17,6 +19,8 @@ class KassirCityParser @Autowired constructor(
     val geocodeService: GeocodeService
 ) : CityParser {
     companion object {
+        @JvmField
+        val logger: Logger = LoggerFactory.getLogger(KassirCityParser::class.java)
         const val URL: String = "https://www.kassir.ru/"
         const val TYPE = "Kassir"
         const val CSS_QUERY_CITIES = "ul.cities"
@@ -25,7 +29,7 @@ class KassirCityParser @Autowired constructor(
     }
 
     override suspend fun parse() = attempt({
-        println(TYPE)
+        logger.debug("[{}] Start parsing", TYPE)
         withContext(Dispatchers.IO) {
             Jsoup.connect(URL).get()
         }.run {
@@ -40,5 +44,5 @@ class KassirCityParser @Autowired constructor(
                     )
                 }
         }
-    }) { e -> e.printStackTrace(); listOf() }
+    }) { e -> logger.warn("[${KassirEventParser.TYPE}]", e); listOf() }
 }

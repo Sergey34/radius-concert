@@ -2,6 +2,8 @@ package seko0716.radius.concert.admin.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
@@ -18,12 +20,17 @@ class GeocodeConfig @Autowired constructor(
     private val mongoTemplate: MongoTemplate,
     private val mapper: ObjectMapper
 ) {
+    companion object {
+        @JvmField
+        val logger: Logger = LoggerFactory.getLogger(GeocodeConfig::class.java)
+    }
+
     @PostConstruct
     fun importGeocodes() {
         if (mongoTemplate.count<Geocode>() != 0L) {
             return
         }
-        println("load geocodes")
+        logger.info("Load geocodes")
         val distinctBy = mapper.readValue<List<Pair<String, SerderPoint>>>(File("geocodes.json"))
             .map { Geocode(it.first.toLowerCase(), it.first, Point(it.second.y, it.second.x)) }
             .distinctBy { it.nameForSearch }

@@ -4,10 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Primary
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import org.springframework.stereotype.Component
 import seko0716.radius.concert.admin.services.parsers.EventParser
+import seko0716.radius.concert.admin.services.parsers.kassir.KassirEventParser
 import seko0716.radius.concert.event.domains.City
 import seko0716.radius.concert.event.domains.Event
 import seko0716.radius.concert.shared.addToCollection
@@ -24,10 +27,12 @@ class YandexAfishaEventsParser constructor(
         const val URL: String = "https://afisha.yandex.ru/api/events/actual?limit=20&tag=concert&offset="
         const val suffix: String = "&hasMixed=0&city="
         const val TYPE: String = "Yandex Afisha"
+        @JvmField
+        val logger: Logger = LoggerFactory.getLogger(YandexAfishaEventsParser::class.java)
     }
 
     override suspend fun parse(city: City): List<Event> {
-        println("$TYPE $city start")
+        logger.debug("[{}] Start parse for {}", KassirEventParser.TYPE, city)
         var offset = 0
         var total: Int
         val result: MutableList<Event> = mutableListOf()
@@ -56,7 +61,7 @@ class YandexAfishaEventsParser constructor(
             offset += paging.limit
             total = paging.total
         } while (offset <= total && total != 0)
-        println("$TYPE $city done $result")
+        logger.debug("[{}] End parse for {}", KassirEventParser.TYPE, city)
         return result
     }
 
@@ -67,5 +72,5 @@ class YandexAfishaEventsParser constructor(
         withContext(Dispatchers.IO) {
             mapper.readValue<YandexPage>(URL(url))
         }
-    }) { e -> e.printStackTrace(); return YandexPage.INVALID_YANDEX_PAGE }
+    }) { e -> logger.warn("[$TYPE]", e); return YandexPage.INVALID_YANDEX_PAGE }
 }

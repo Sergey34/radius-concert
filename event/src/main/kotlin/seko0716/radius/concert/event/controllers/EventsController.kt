@@ -27,13 +27,8 @@ class EventsController @Autowired constructor(
     suspend fun getEvents(
         @PathVariable currentCity: String,
         @PathVariable distance: Double,
-        @PathVariable metric: Metrics,
-        @RequestParam(
-            required = false,
-            defaultValue = "Город",
-            name = "searchType"
-        ) searchType: String
+        @PathVariable metric: Metrics
     ): Flow<Event> {
-        return eventService.getEvents(currentCity, distance, metric, searchType)
+        return eventService.getEvents(currentCity, distance, metric)
     }
 }

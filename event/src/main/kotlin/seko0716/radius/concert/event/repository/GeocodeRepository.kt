@@ -2,9 +2,12 @@ package seko0716.radius.concert.event.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
+import kotlinx.coroutines.reactive.awaitFirst
+import kotlinx.coroutines.reactive.awaitFirstOrDefault
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
+import org.springframework.data.mongodb.core.count
 import org.springframework.data.mongodb.core.find
 import org.springframework.data.mongodb.core.findById
 import org.springframework.data.mongodb.core.query.Criteria
@@ -35,11 +38,22 @@ class GeocodeRepository @Autowired constructor(
     }
 
     suspend fun find(name: String): Geocode? {
-        return mongoTemplate.findById<Geocode>(name).awaitFirstOrNull()
+        val query = Query.query(Criteria.where("nameForSearch").`is`(name))
+        val count = mongoTemplate.count<Geocode>(query).awaitFirst()
+        return if (count != 1L) {
+            null
+        } else {
+            mongoTemplate.find<Geocode>(query)
+                .awaitFirstOrNull()//collection is static. concurrent problems is impossible
+        }
     }
 
     suspend fun find(names: List<String>): Flow<Geocode> {
         return mongoTemplate.find<Geocode>(Query.query(Criteria.where("nameForSearch").`in`(names))).asFlow()
+    }
+
+    suspend fun findById(name: String): Geocode {
+        return mongoTemplate.findById<Geocode>(name).awaitFirstOrDefault(Geocode.EMPTY_GEOCODE)
     }
 }
 

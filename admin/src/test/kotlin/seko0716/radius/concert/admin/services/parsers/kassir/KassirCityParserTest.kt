@@ -21,7 +21,7 @@ internal class KassirCityParserTest {
         fun before() = runBlocking {
             @Suppress("UNUSED_VARIABLE")
             val thenReturn = `when`(
-                geocodeService.getGeocode(anyObject())
+                geocodeService.getGeocode(anyObject()).point
             ).thenReturn(Point(Double.NaN, Double.NaN))
         }
 

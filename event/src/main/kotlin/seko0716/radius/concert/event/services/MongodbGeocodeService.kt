@@ -3,9 +3,9 @@ package seko0716.radius.concert.event.services
 import kotlinx.coroutines.flow.Flow
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.Cacheable
-import org.springframework.data.geo.Point
 import org.springframework.stereotype.Service
 import seko0716.radius.concert.event.domains.Geocode
+import seko0716.radius.concert.event.domains.Geocode.Companion.EMPTY_GEOCODE
 import seko0716.radius.concert.event.repository.GeocodeRepository
 
 @Service
@@ -14,9 +14,12 @@ class MongodbGeocodeService @Autowired constructor(
 ) : GeocodeService {
 
     @Cacheable(cacheNames = ["point"])
-    override suspend fun getGeocode(name: String): Point {
-        return geocodeRepository.find(name.toLowerCase())?.point
-            ?: Point(Double.NaN, Double.NaN)
+    override suspend fun getGeocode(name: String): Geocode {
+        return geocodeRepository.find(name) ?: EMPTY_GEOCODE
+    }
+
+    override suspend fun getGeocodeById(name: String): Geocode {
+        return geocodeRepository.findById(name)
     }
 
     override suspend fun addGeocodes(geocodes: List<Geocode>): Flow<Geocode> {

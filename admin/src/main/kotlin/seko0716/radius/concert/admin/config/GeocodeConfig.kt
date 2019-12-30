@@ -16,7 +16,8 @@ import javax.annotation.PostConstruct
 
 @Profile("load_geocode_config")
 @Configuration
-class GeocodeConfig @Autowired constructor(
+class GeocodeConfig
+@Autowired constructor(
     private val mongoTemplate: MongoTemplate,
     private val mapper: ObjectMapper
 ) {
@@ -32,9 +33,35 @@ class GeocodeConfig @Autowired constructor(
         }
         logger.info("Load geocodes")
         val distinctBy = mapper.readValue<List<Pair<String, SerderPoint>>>(File("geocodes.json"))
-            .map { Geocode(it.first.toLowerCase(), it.first, Point(it.second.y, it.second.x)) }
-            .distinctBy { it.nameForSearch }
-        distinctBy
+            .asSequence()
+            .filter { it.first.startsWith("Россия, ") }
+            .map { g ->
+                val name = g.first.removePrefix("Россия, ")
+                Geocode(
+                    name.toLowerCase().substring(
+                        name.toLowerCase().lastIndexOf(',') + 1,
+                        name.toLowerCase().length
+                    ).trim(),
+                    name,
+                    Point(g.second.y, g.second.x)
+                )
+            }
+            .distinctBy { it.name.toLowerCase() }
+            .groupBy { it.nameForSearch }
+            .toMap()
+            .flatMap {
+                if (it.value.size == 1) {
+                    it.value
+                } else {
+                    it.value.map { g ->
+                        Geocode(
+                            g.name.toLowerCase(),
+                            g.name,
+                            g.point
+                        )
+                    }
+                }
+            }
             .let {
                 mongoTemplate.insertAll(it)
             }

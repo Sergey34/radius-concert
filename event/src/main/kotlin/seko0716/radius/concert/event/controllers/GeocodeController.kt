@@ -18,4 +18,9 @@ class GeocodeController @Autowired constructor(
     suspend fun searchGeocode(@PathVariable("template") template: String): Flow<Geocode> {
         return geocodeService.searchGeocodes(template)
     }
+
+    @GetMapping("/geocode/{template}")
+    suspend fun getGeocode(@PathVariable("template") template: String): Geocode {
+        return geocodeService.getGeocodeById(template)
+    }
 }

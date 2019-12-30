@@ -85,11 +85,7 @@
             </div>
             <div class="modal-body">
                 <ul class="list-group" id="city_list">
-                    <a href="/qwe">
-                        <li class="list-group-item">село Воскресенское, Воскресенский район, Саратовская область,
-                            Россия</span>
-                        </li>
-                    </a>
+
                 </ul>
             </div>
         </div>
@@ -109,8 +105,11 @@
     let events_stored = [];
     $.get(url)
         .then(data => {
-            let cityName = decodeURI(city);
-            $('#current_city').text(cityName.charAt(0).toUpperCase() + cityName.substring(1));
+            $.get(`/api/geocode/${city}`)
+                .then(it => {
+                    console.log(it)
+                    $('#current_city').text(it.name);
+                });
             if (data.length > 0) {
                 events_stored = data;
                 fillEvents(0, 50);

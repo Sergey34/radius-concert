@@ -36,7 +36,7 @@ class KassirCityParser @Autowired constructor(
             select(CSS_QUERY_CITIES)
                 .flatMap { it.select(CSS_QUERY_CITY) }
                 .map {
-                    val position = geocodeService.getGeocode("россия, ${it.text()}")
+                    val position = geocodeService.getGeocode(it.text().toLowerCase()).point
                     City(
                         TYPE, it.attr(
                             ATTR_HREF

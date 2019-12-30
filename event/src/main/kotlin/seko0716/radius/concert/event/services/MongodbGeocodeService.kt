@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import seko0716.radius.concert.event.domains.Geocode
-import seko0716.radius.concert.event.domains.Geocode.Companion.EMPTY_GEOCODE
 import seko0716.radius.concert.event.repository.GeocodeRepository
 
 @Service
@@ -13,11 +12,7 @@ class MongodbGeocodeService @Autowired constructor(
     private val geocodeRepository: GeocodeRepository
 ) : GeocodeService {
 
-    @Cacheable(cacheNames = ["point"])
-    override suspend fun getGeocode(name: String): Geocode {
-        return geocodeRepository.find(name) ?: EMPTY_GEOCODE
-    }
-
+    @Cacheable(cacheNames = ["geocode"])
     override suspend fun getGeocodeById(name: String): Geocode {
         return geocodeRepository.findById(name)
     }

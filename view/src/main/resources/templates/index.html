@@ -80,17 +80,6 @@
                         <div class="col-md d-flex py-md-4">
                             <div class="form-group align-self-stretch d-flex align-items-end">
                                 <div class="wrap align-self-stretch py-3 px-4">
-                                    <label for="category" id="l_search_type">Категория</label>
-                                    <select class="form-control" id="search_type" name="">
-                                        <option value="">Город</option>
-                                        <option value="">Расширенный</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md d-flex py-md-4">
-                            <div class="form-group align-self-stretch d-flex align-items-end">
-                                <div class="wrap align-self-stretch py-3 px-4">
                                     <label for="category" id="l_categoty">Категория</label>
                                     <select class="form-control" id="category" name="">
                                         <option value="">Все</option>
@@ -113,15 +102,15 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md d-flex py-md-4">
-                             <div class="form-group align-self-stretch d-flex align-items-end">
-                                 <div class="wrap align-self-stretch py-3 px-4">
-                                     <label for="when" id="l_when">Когда?</label>
-                                     <input class="form-control checkin_date" id="when" placeholder="Выбери дату"
-                                            type="text">
-                                 </div>
-                             </div>
-                         </div>-->
+                        <div class="col-md d-flex py-md-4">
+                            <div class="form-group align-self-stretch d-flex align-items-end">
+                                <div class="wrap align-self-stretch py-3 px-4">
+                                    <label for="when" id="l_when">Когда?</label>
+                                    <input class="form-control checkin_date" id="when" placeholder="Выбери дату"
+                                           type="text">
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md d-flex">
                             <div class="form-group d-flex align-self-stretch">
                                 <a class="btn btn-primary py-5 py-md-3 px-4 align-self-stretch d-block" href="#"
@@ -307,7 +296,6 @@
 <script>
     function changeLink() {
         const currentCity = $('#city').val();
-        const searchType = $('#search_type option:selected').text();
         const distance = $('#distance').val();
         let valid = true;
         if (currentCity === null || currentCity === undefined || currentCity.length < 2) {
@@ -325,7 +313,7 @@
         if (!valid) {
             return valid;
         }
-        document.getElementById('search').href = `/events/${currentCity}/${distance}/KILOMETERS?searchType=${searchType}`;
+        document.getElementById('search').href = `/events/${currentCity}/${distance}/KILOMETERS`;
     }
 </script>
 

@@ -20,7 +20,7 @@ internal class YandexAfishaCityParserTest {
         fun before() = runBlocking {
             @Suppress("UNUSED_VARIABLE")
             val thenReturn = Mockito.`when`(
-                geocodeService.getGeocode(anyObject()).point
+                geocodeService.getGeocodeById(anyObject()).point
             ).thenReturn(Point(Double.NaN, Double.NaN))
         }
 

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Primary
 import org.springframework.stereotype.Component
 import seko0716.radius.concert.admin.services.parsers.CityParser
-import seko0716.radius.concert.admin.services.parsers.kassir.KassirCityParser
+
 import seko0716.radius.concert.event.domains.City
 import seko0716.radius.concert.shared.attempt
 import java.net.URL
@@ -28,7 +28,7 @@ class YandexAfishaCityParser @Autowired constructor(
     }
 
     override suspend fun parse() = attempt({
-        logger.debug("[{}] Start parsing", KassirCityParser.TYPE)
+        logger.debug("[{}] Start parsing", TYPE)
         withContext(Dispatchers.IO) {
             mapper.readValue<YandexCityResponse>(URL(URL)).data
         }

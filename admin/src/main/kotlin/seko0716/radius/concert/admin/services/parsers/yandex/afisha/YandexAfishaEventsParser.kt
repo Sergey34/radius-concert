@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Primary
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import org.springframework.stereotype.Component
 import seko0716.radius.concert.admin.services.parsers.EventParser
-import seko0716.radius.concert.admin.services.parsers.kassir.KassirEventParser
 import seko0716.radius.concert.event.domains.City
 import seko0716.radius.concert.event.domains.Event
 import seko0716.radius.concert.shared.addToCollection
@@ -32,7 +31,7 @@ class YandexAfishaEventsParser constructor(
     }
 
     override suspend fun parse(city: City): List<Event> {
-        logger.debug("[{}] Start parse for {}", KassirEventParser.TYPE, city)
+        logger.debug("[{}] Start parse for {}", TYPE, city)
         var offset = 0
         var total: Int
         val result: MutableList<Event> = mutableListOf()
@@ -61,7 +60,7 @@ class YandexAfishaEventsParser constructor(
             offset += paging.limit
             total = paging.total
         } while (offset <= total && total != 0)
-        logger.debug("[{}] End parse for {}", KassirEventParser.TYPE, city)
+        logger.debug("[{}] End parse for {}", TYPE, city)
         return result
     }
 

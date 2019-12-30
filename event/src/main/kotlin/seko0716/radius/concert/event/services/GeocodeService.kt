@@ -5,10 +5,7 @@ import seko0716.radius.concert.event.domains.Geocode
 
 
 interface GeocodeService {
-    suspend fun getGeocodeById(name: String): Geocode
-
     suspend fun addGeocodes(geocodes: List<Geocode>): Flow<Geocode>
-
     suspend fun searchGeocodes(name: String): Flow<Geocode>
     suspend fun getGeocodeById(name: String): Geocode
 }

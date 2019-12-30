@@ -31,7 +31,7 @@ class SecurityConfiguration {
             .httpBasic()
             .and()
             .authorizeExchange()
-            .pathMatchers("/api/update").hasAuthority("Admin")
+            .pathMatchers("/api/admin/update").hasAuthority("Admin")
             .anyExchange()
             .permitAll()
             .and()

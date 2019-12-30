@@ -10,7 +10,7 @@ import seko0716.radius.concert.admin.services.ParserService
 import seko0716.radius.concert.event.domains.Event
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/admin")
 class AdminController @Autowired constructor(
     private val parserService: ParserService
 ) {

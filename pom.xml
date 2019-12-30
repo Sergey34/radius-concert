@@ -25,6 +25,7 @@
         <module>view</module>
         <module>admin</module>
         <module>shared</module>
+        <module>security</module>
     </modules>
 
     <properties>

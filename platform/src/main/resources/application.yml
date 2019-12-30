@@ -14,3 +14,6 @@ spring:
 
   profiles:
     active: load_geocode_config
+logging:
+  level:
+    org.springframework: info

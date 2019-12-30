@@ -22,18 +22,24 @@ import seko0716.radius.concert.security.service.MongoUserDetailService
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 class SecurityConfiguration {
+
     @Bean
     fun securityWebFilterChain(
         http: ServerHttpSecurity, userDetailService: MongoUserDetailService
     ): SecurityWebFilterChain {
         return http
+            .oauth2Login()
+//            .clientRegistrationRepository(clientRegistrationRepository())
+            .and()
+            .formLogin()
             .authenticationManager(authenticationManager(userDetailService))
+            .and()
             .httpBasic()
             .and()
             .authorizeExchange()
             .pathMatchers("/api/admin/update").hasAuthority("Admin")
-            .anyExchange()
-            .permitAll()
+            .pathMatchers("/ttt").authenticated()
+            .anyExchange().permitAll()
             .and()
             .build()
     }
@@ -62,6 +68,8 @@ class SecurityConfiguration {
     @Bean
     fun authenticationManager(userDetailService: MongoUserDetailService): ReactiveAuthenticationManager {
         return UserDetailsRepositoryReactiveAuthenticationManager(userDetailService)
-            .apply { setPasswordEncoder(passwordEncoder()) }
+            .apply {
+                setPasswordEncoder(passwordEncoder())
+            }
     }
 }

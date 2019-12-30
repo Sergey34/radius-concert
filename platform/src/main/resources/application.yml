@@ -1,4 +1,8 @@
 spring:
+  profiles:
+    active: load_geocode_config
+    include:
+      - oauth2
   application:
     geocode:
       file:
@@ -12,8 +16,7 @@ spring:
       storage:
         database-dir: ./.db
 
-  profiles:
-    active: load_geocode_config
 logging:
   level:
+    root: info
     org.springframework: info

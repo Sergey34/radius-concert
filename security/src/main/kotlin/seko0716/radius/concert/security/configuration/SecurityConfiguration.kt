@@ -12,63 +12,24 @@ import org.springframework.security.authentication.UserDetailsRepositoryReactive
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
-import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.web.server.DefaultServerRedirectStrategy
 import org.springframework.security.web.server.SecurityWebFilterChain
-import org.springframework.security.web.server.ServerRedirectStrategy
-import org.springframework.security.web.server.WebFilterExchange
-import org.springframework.security.web.server.authentication.ServerAuthenticationSuccessHandler
-import org.springframework.security.web.server.savedrequest.ServerRequestCache
-import org.springframework.security.web.server.savedrequest.WebSessionServerRequestCache
-import reactor.core.publisher.Mono
 import seko0716.radius.concert.security.domains.Role
 import seko0716.radius.concert.security.domains.User
 import seko0716.radius.concert.security.service.MongoUserDetailService
-import java.net.URI
 
 
 @Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 class SecurityConfiguration {
-
-    class MyServerAuthenticationSuccessHandler : ServerAuthenticationSuccessHandler {
-        companion object {
-            @JvmField
-            val location: URI = URI.create("/")
-        }
-
-        private val redirectStrategy: ServerRedirectStrategy = DefaultServerRedirectStrategy()
-        private val requestCache: ServerRequestCache = WebSessionServerRequestCache()
-        override fun onAuthenticationSuccess(
-            webFilterExchange: WebFilterExchange,
-            authentication: Authentication
-        ): Mono<Void> {
-            println()
-            val user = authentication.principal as User
-            return if (user.enabled) {
-                this.requestCache.getRedirectUri(webFilterExchange.exchange)
-                    .defaultIfEmpty(location)
-                    .flatMap { location: URI ->
-                        redirectStrategy.sendRedirect(
-                            webFilterExchange.exchange,
-                            location
-                        )
-                    }
-            } else {
-                redirectStrategy.sendRedirect(webFilterExchange.exchange, URI.create("/fill_password_page"))
-            }
-        }
-    }
-
     @Bean
     fun securityWebFilterChain(
         http: ServerHttpSecurity, userDetailService: MongoUserDetailService
     ): SecurityWebFilterChain {
         return http
             .oauth2Login()
-            .authenticationSuccessHandler(MyServerAuthenticationSuccessHandler())
+            .authenticationSuccessHandler(FillPasswordPageForDisabledUsersServerAuthenticationSuccessHandler())
             .and()
             .formLogin()
             .authenticationManager(authenticationManager(userDetailService))

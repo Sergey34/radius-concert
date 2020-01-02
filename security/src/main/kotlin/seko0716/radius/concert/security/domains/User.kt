@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.oauth2.core.user.OAuth2User
 
 @Document
 data class User(
@@ -12,14 +13,16 @@ data class User(
     val id: ObjectId = ObjectId(),
     val socialAccountId: String,
     val login: String,
-    val pass: String,
+    var pass: String,
     val email: String? = null,
     val firstName: String,
     val lastName: String? = null,
-    val enabled: Boolean = true,
-    val roles: List<Role> = listOf(),
-    val authServiceType: String = "BASE"
-) : UserDetails {
+    var enabled: Boolean = true,
+    val roles: List<GrantedAuthority> = listOf(),
+    val authServiceType: String = "BASE",
+    val attrs: Map<String, Any> = mapOf()
+) : UserDetails, OAuth2User {
+
     override fun getAuthorities(): Collection<GrantedAuthority> = roles
 
     override fun isEnabled(): Boolean = enabled
@@ -33,4 +36,9 @@ data class User(
     override fun isAccountNonExpired(): Boolean = true
 
     override fun isAccountNonLocked(): Boolean = true
+
+    override fun getName(): String = login
+
+    override fun getAttributes(): Map<String, Any> = attrs
+
 }

@@ -1,5 +1,6 @@
 package seko0716.radius.concert.security.configuration
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.core.MongoTemplate
@@ -89,13 +90,17 @@ class SecurityConfiguration {
     }
 
     @Bean
-    fun defaultUser(userRepository: MongoTemplate): User {
-        userRepository.findAllAndRemove<User>(Query.query(Criteria.where("login").`is`("seko")))
+    fun defaultUser(
+        userRepository: MongoTemplate,
+        @Value("\${spring.security.user.name}") name: String,
+        @Value("\${spring.security.user.password}") password: String
+    ): User {
+        userRepository.findAllAndRemove<User>(Query.query(Criteria.where("login").`is`(name)))
         return User(
             socialAccountId = "",
             authServiceType = "",
-            login = "seko",
-            pass = passwordEncoder().encode("0716"),
+            login = name,
+            pass = passwordEncoder().encode(password),
             firstName = "",
             roles = listOf(Role("Admin"))
         ).apply {

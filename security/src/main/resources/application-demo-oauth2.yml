@@ -7,4 +7,10 @@ spring:
             client-id: 123.apps.googleusercontent.com
             client-secret: 321
             scope: profile,email
+        provider:
+          google:
+            userNameAttribute: email
+    user:
+      password: '0716'
+      name: seko
 

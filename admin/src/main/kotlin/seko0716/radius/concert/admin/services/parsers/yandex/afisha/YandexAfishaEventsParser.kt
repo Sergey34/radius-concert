@@ -71,5 +71,5 @@ class YandexAfishaEventsParser constructor(
         withContext(Dispatchers.IO) {
             mapper.readValue<YandexPage>(URL(url))
         }
-    }) { e -> logger.warn("[$TYPE]", e); return YandexPage.INVALID_YANDEX_PAGE }
+    }) { e -> logger.warn("[$TYPE] failed for url {}", url, e); return YandexPage.INVALID_YANDEX_PAGE }
 }

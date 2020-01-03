@@ -31,7 +31,9 @@ data class Event(
         var tickets: List<Ticket>,
         val title: String, // Вражда
         val type: Type,
-        var url: String
+        val tags: List<Tag>?,
+        var url: String,
+        val genre: List<String> = tags?.filter { it.type == "genre" }?.map { it.code } ?: listOf()
     ) {
         @JsonIgnoreProperties(ignoreUnknown = true)
         data class Image(
@@ -65,6 +67,13 @@ data class Event(
         data class Type(
             val code: String, // theatre
             val name: String // Театр
+        )
+
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        data class Tag(
+            val code: String,
+            val name: String,
+            val type: String
         )
     }
 

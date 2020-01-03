@@ -25,6 +25,7 @@
     <link href="/css/flaticon.css" rel="stylesheet">
     <link href="/css/icomoon.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 
@@ -80,11 +81,11 @@
                         <div class="col-md d-flex py-md-4">
                             <div class="form-group align-self-stretch d-flex align-items-end">
                                 <div class="wrap align-self-stretch py-3 px-4">
-                                    <label for="category" id="l_categoty">Категория</label>
-                                    <select class="form-control" id="category" name="">
-                                        <option value="">Все</option>
-                                        <option value="">Концерты</option>
-                                        <option value="">Театры</option>
+                                    <label for="genre" id="l_categoty">Жанр</label>
+                                    <select class="form-control" id="genre" name="">
+                                        <option value="all">Все</option>
+                                        <option value="rock">Рок</option>
+                                        <option value="govno">Попса - говно</option>
                                     </select>
                                 </div>
                             </div>
@@ -104,10 +105,10 @@
                         </div>
                         <div class="col-md d-flex py-md-4">
                             <div class="form-group align-self-stretch d-flex align-items-end">
-                                <div class="wrap align-self-stretch py-3 px-4">
+                                <div class="wrap align-self-stretch py-3 px-6">
                                     <label for="when" id="l_when">Когда?</label>
-                                    <input class="form-control checkin_date" id="when" placeholder="Выбери дату"
-                                           type="text">
+                                    <input class="form-control" id="when" name="daterange" type="text"
+                                           value="01/01/2018 - 01/15/2018"/>
                                 </div>
                             </div>
                         </div>
@@ -285,6 +286,9 @@
 <script src="/js/scrollax.min.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/fillEvents.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" type="text/javascript"></script>
 
 
 <script>
@@ -297,6 +301,10 @@
     function changeLink() {
         const currentCity = $('#city').val();
         const distance = $('#distance').val();
+        const genre = $('#genre').val();
+        const [startStr, endStr] = $('input[name="daterange"]').val().split(' - ');
+        const start = moment(startStr, 'DD/MM/YY').format("DDMMYY");
+        const end = moment(endStr, 'DD/MM/YY').format("DDMMYY");
         let valid = true;
         if (currentCity === null || currentCity === undefined || currentCity.length < 2) {
             $('#l_city').addClass("text-danger");
@@ -313,8 +321,47 @@
         if (!valid) {
             return valid;
         }
-        document.getElementById('search').href = `/events/${currentCity}/${distance}/KILOMETERS`;
+        document.getElementById('search').href = `/events/${currentCity}/${distance}/KILOMETERS/${genre}/${start}/${end}`;
     }
+</script>
+
+<script>
+    $(function () {
+        let startDate = new Date();
+        let endDate = new Date();
+        let minDate = new Date();
+        minDate.setDate(minDate.getDate() - 1);
+        endDate.setMonth(endDate.getMonth() + 1);
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left',
+            minDate: startDate,
+            startDate: startDate,
+            endDate: endDate,
+            showDropdowns: true,
+            locale: {
+                cancelLabel: ' Отмена ',
+                applyLabel: ' Применить ',
+                format: 'DD/MM/YY',
+                separator: ' - ',
+                monthNames: [
+                    'Январь',
+                    'Февраль',
+                    'Март',
+                    'Апрель',
+                    'Май',
+                    'Июнь',
+                    'Июль',
+                    'Август',
+                    'Сентябрь',
+                    'Октябрь',
+                    'Ноябрь',
+                    'Декабрь'
+                ],
+            }
+        }, function (start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        });
+    });
 </script>
 
 </body>

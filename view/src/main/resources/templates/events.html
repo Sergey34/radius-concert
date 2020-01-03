@@ -93,21 +93,30 @@
 </div>
 
 <script>
-    const [city, distance, metric] = window.location.href.split('/').slice(4, 7);
+    const [city, distance, metric, genre, start, end] = window.location.href.split('/').slice(4, 10);
 
-    const citesTemplate = "{{#cites}}\n" +
-        "<a href=\"/events/{{nameForSearch}}/{{distance}}/{{metric}}\">\n" +
-        "    <li class=\"list-group-item\">{{name}}</span>\n" +
-        "    </li></a>\n" +
-        "{{/cites}}";
+    let citesTemplate = "{{#cites}}\n"
+    let href = "<a href=\"/events/{{nameForSearch}}/{{distance}}/{{metric}}\">\n";
+
 
     let url = `/api/events/${city}/${distance}/${metric}`;
+    if (genre !== null && genre !== undefined) {
+        url += `/${genre}`;
+        href = "<a href=\"/events/{{nameForSearch}}/{{distance}}/{{metric}}/{{genre}}\">\n";
+        if (start !== null && start !== undefined && end !== null && end !== undefined) {
+            url += `/${start}/${end}`;
+            href = "<a href=\"/events/{{nameForSearch}}/{{distance}}/{{metric}}/{{genre}}/{{start}}/{{end}}\">\n";
+        }
+    }
+
+    citesTemplate += href + "    <li class=\"list-group-item\">{{name}}</span>\n" +
+        "    </li></a>\n" +
+        "{{/cites}}";
     let events_stored = [];
     $.get(url)
         .then(data => {
             $.get(`/api/geocode/${city}`)
                 .then(it => {
-                    console.log(it)
                     $('#current_city').text(it.name);
                 });
             if (data.length > 0) {
@@ -124,7 +133,10 @@
                     let cites = Mustache.render(citesTemplate, {
                         cites: geocodes,
                         distance: distance,
-                        metric: metric
+                        metric: metric,
+                        genre: genre,
+                        start: start,
+                        end: end
                     });
                     $('#city_list').html(cites);
 

@@ -35,7 +35,7 @@ class FillPasswordPageForDisabledUsersServerAuthenticationSuccessHandler : Serve
                     )
                 }
         } else {
-            redirectStrategy.sendRedirect(webFilterExchange.exchange, URI.create("/fill_password_page"))
+            redirectStrategy.sendRedirect(webFilterExchange.exchange, URI.create("/account"))
         }
     }
 }

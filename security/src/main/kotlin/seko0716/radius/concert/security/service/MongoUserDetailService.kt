@@ -10,9 +10,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
-import seko0716.radius.concert.security.controller.Password
+import seko0716.radius.concert.security.domains.DtoUser
+import seko0716.radius.concert.security.domains.Role
 import seko0716.radius.concert.security.domains.User
 import seko0716.radius.concert.security.repository.UserRepository
+
 
 @Service
 class MongoUserDetailService constructor(
@@ -27,22 +29,40 @@ class MongoUserDetailService constructor(
         return userRepository.findUserByLogin(username)
     }
 
+    @Suppress("unused")
     fun enabledOrNull(user: User?): Boolean {
         return user?.isEnabled ?: true
     }
 
-    fun createUser(user: User): Mono<User> {
-        return userRepository.save(user)
+    fun createUser(dtoUser: DtoUser): Mono<User> {
+        val user = dtoUser.takeIf {
+            it.login != null && it.login.isNotBlank()
+                    && it.isValid() && it.pwd != null && it.pwd.isNotBlank()
+        }
+            ?.let {
+                User(
+                    login = it.login!!,
+                    pass = passwordEncoder.encode(it.pwd),
+                    roles = listOf(Role("USER")),
+                    firstName = it.login,
+                    enabled = true
+                )
+            }
+            ?.run {
+                userRepository.save(this)
+            }
+        return user ?: throw IllegalArgumentException("Invalid dto user")
     }
 
     fun update(user: User): Mono<User> {
         return userRepository.save(user)
     }
 
-    fun updatePassword(user: User, password: Password): Mono<Unit> {
-        user.enabled = true
-        user.pass = passwordEncoder.encode(password.psw)
-        return update(user)
+    fun updateUser(user: User, dtoUser: DtoUser): Mono<*> {
+        if (!dtoUser.isValid()) {
+            return Mono.error<IllegalArgumentException>(IllegalArgumentException("Invalid dto user"))
+        }
+        return update(fillUserParams(user, dtoUser))
             .flatMap { u ->
                 ReactiveSecurityContextHolder.getContext()
                     .map { Pair<SecurityContext, Authentication>(it, it.authentication) }
@@ -57,14 +77,24 @@ class MongoUserDetailService constructor(
                             is UsernamePasswordAuthenticationToken ->
                                 UsernamePasswordAuthenticationToken(
                                     u,
-                                    authentication.credentials,
+                                    u.password,
                                     authentication.authorities
                                 )
                             else -> throw IllegalStateException()
                         }
                     }
             }
+    }
 
-
+    private fun fillUserParams(
+        user: User,
+        dtoUser: DtoUser
+    ): User {
+        user.enabled = true
+        user.pass = dtoUser.pwd?.takeIf { it.isNotBlank() }?.let { passwordEncoder.encode(it) } ?: user.pass
+        user.email = dtoUser.email
+        user.firstName = dtoUser.firstName
+        user.lastName = dtoUser.lastName
+        return user
     }
 }

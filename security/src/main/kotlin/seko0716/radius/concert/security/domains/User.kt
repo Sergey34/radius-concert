@@ -11,12 +11,12 @@ import org.springframework.security.oauth2.core.user.OAuth2User
 data class User(
     @Id
     val id: ObjectId = ObjectId(),
-    val socialAccountId: String,
+    val socialAccountId: String? = null,
     val login: String,
     var pass: String,
-    val email: String? = null,
-    val firstName: String,
-    val lastName: String? = null,
+    var email: String? = null,
+    var firstName: String,
+    var lastName: String? = null,
     var enabled: Boolean = true,
     val roles: List<GrantedAuthority> = listOf(),
     val authServiceType: String = "BASE",

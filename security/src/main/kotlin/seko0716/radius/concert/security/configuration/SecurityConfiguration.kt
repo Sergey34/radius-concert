@@ -32,13 +32,14 @@ class SecurityConfiguration {
             .authenticationSuccessHandler(FillPasswordPageForDisabledUsersServerAuthenticationSuccessHandler())
             .and()
             .formLogin()
+            .loginPage("/login")
             .authenticationManager(authenticationManager(userDetailService))
             .and()
             .httpBasic()
             .and()
             .authorizeExchange()
             .pathMatchers("/api/admin/update").hasAuthority("Admin")
-//            .pathMatchers("/ttt").authenticated()
+            .pathMatchers("/account").authenticated()
             .anyExchange().permitAll()
             .and()
             .csrf().disable()
@@ -61,6 +62,7 @@ class SecurityConfiguration {
             socialAccountId = "",
             authServiceType = "",
             login = name,
+            email = "asd@mail.com",
             pass = passwordEncoder().encode(password),
             firstName = "",
             roles = listOf(Role("Admin"))

@@ -1,7 +1,6 @@
 package seko0716.radius.concert.admin.controllers
 
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.Flow
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -16,7 +15,7 @@ class AdminController @Autowired constructor(
 ) {
     @FlowPreview
     @GetMapping("/update")
-    suspend fun updateData(): Flow<Event> {
+    suspend fun updateData(): List<Event> {
         return parserService.updateData()
     }
 }

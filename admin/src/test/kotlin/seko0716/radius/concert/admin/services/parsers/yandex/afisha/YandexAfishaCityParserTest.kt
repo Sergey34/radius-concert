@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
+import reactor.core.publisher.Mono
 import seko0716.radius.concert.event.domains.Geocode
 import seko0716.radius.concert.event.services.GeocodeService
 import seko0716.radius.concert.event.services.MongodbGeocodeService
@@ -21,7 +22,7 @@ internal class YandexAfishaCityParserTest {
             @Suppress("UNUSED_VARIABLE")
             val thenReturn = Mockito.`when`(
                 geocodeService.getGeocodeById(anyObject())
-            ).thenReturn(Geocode.EMPTY_GEOCODE)
+            ).thenReturn(Mono.just(Geocode.EMPTY_GEOCODE))
         }
 
         private fun <T> anyObject(): T {

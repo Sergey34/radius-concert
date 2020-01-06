@@ -1,10 +1,5 @@
 package seko0716.radius.concert.event.repository
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.reactive.asFlow
-import kotlinx.coroutines.reactive.awaitFirst
-import kotlinx.coroutines.reactive.awaitFirstOrDefault
-import kotlinx.coroutines.reactive.awaitFirstOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.count
@@ -14,6 +9,8 @@ import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import org.springframework.stereotype.Repository
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import seko0716.radius.concert.event.domains.Geocode
 
 @Repository
@@ -21,39 +18,40 @@ class GeocodeRepository @Autowired constructor(
     private val mongoTemplate: ReactiveMongoTemplate,
     private val geocodeMongoRepository: GeocodeMongoRepository
 ) {
-    fun saveAll(events: Collection<Geocode>): Flow<Geocode> {
-        return geocodeMongoRepository.saveAll(events).asFlow()
+    fun saveAll(events: Collection<Geocode>): Flux<Geocode> {
+        return geocodeMongoRepository.saveAll(events)
     }
 
-    fun getGeocodesByTemplate(template: String): Flow<Geocode> {
-        return mongoTemplate.find<Geocode>(
+    fun getGeocodesByTemplate(template: String): Flux<Geocode> {
+        return mongoTemplate.find(
             Query.query(
                 Criteria.where("nameForSearch").regex(template)
             )
-        ).asFlow()
+        )
     }
 
-    fun saveAll(geocodes: List<Geocode>): Flow<Geocode> {
-        return mongoTemplate.insertAll<Geocode>(geocodes).asFlow()
+    fun saveAll(geocodes: List<Geocode>): Flux<Geocode> {
+        return mongoTemplate.insertAll<Geocode>(geocodes)
     }
 
-    suspend fun find(name: String): Geocode? {
+    fun find(name: String): Mono<Geocode> {
         val query = Query.query(Criteria.where("nameForSearch").`is`(name))
-        val count = mongoTemplate.count<Geocode>(query).awaitFirst()
-        return if (count != 1L) {
-            null
-        } else {
-            mongoTemplate.find<Geocode>(query)
-                .awaitFirstOrNull()//collection is static. concurrent problems is impossible
-        }
+        return mongoTemplate.count<Geocode>(query)
+            .flatMap { count ->
+                if (count != 1L) {
+                    Mono.empty()
+                } else {
+                    mongoTemplate.find<Geocode>(query).last()
+                }
+            }
     }
 
-    suspend fun find(names: List<String>): Flow<Geocode> {
-        return mongoTemplate.find<Geocode>(Query.query(Criteria.where("nameForSearch").`in`(names))).asFlow()
+    fun find(names: List<String>): Flux<Geocode> {
+        return mongoTemplate.find(Query.query(Criteria.where("nameForSearch").`in`(names)))
     }
 
-    suspend fun findById(name: String): Geocode {
-        return mongoTemplate.findById<Geocode>(name).awaitFirstOrDefault(Geocode.EMPTY_GEOCODE)
+    fun findById(name: String): Mono<Geocode> {
+        return mongoTemplate.findById<Geocode>(name).defaultIfEmpty(Geocode.EMPTY_GEOCODE)
     }
 }
 

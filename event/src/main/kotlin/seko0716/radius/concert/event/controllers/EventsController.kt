@@ -1,10 +1,10 @@
 package seko0716.radius.concert.event.controllers
 
-import kotlinx.coroutines.flow.Flow
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.geo.Metrics
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Flux
 import seko0716.radius.concert.event.domains.Event
 import seko0716.radius.concert.event.services.EventService
 import java.time.LocalDate
@@ -15,13 +15,13 @@ class EventsController @Autowired constructor(
     private val eventService: EventService
 ) {
     @GetMapping("/events")
-    suspend fun getAllEvents(
+    fun getAllEvents(
         @RequestParam(
             required = false,
             defaultValue = "50",
             name = "count"
         ) count: Int
-    ): Flow<Event> {
+    ): Flux<Event> {
         return eventService.getAllEvents(count)
     }
 
@@ -33,14 +33,14 @@ class EventsController @Autowired constructor(
             "/events/{currentCity}/{distance}/{metric}/{genre}/{start}/{end}"
         ]
     )
-    suspend fun getEvents(
+    fun getEvents(
         @PathVariable(name = "currentCity") currentCity: String,
         @PathVariable(name = "distance") distance: Double,
         @PathVariable(name = "metric") metric: Metrics,
         @PathVariable(required = false, name = "genre") genre: String?,
         @PathVariable(required = false, name = "start") @DateTimeFormat(pattern = "ddMMyy") start: LocalDate?,
         @PathVariable(required = false, name = "end") @DateTimeFormat(pattern = "ddMMyy") end: LocalDate?
-    ): Flow<Event> {
+    ): Flux<Event> {
         return eventService.getEvents(currentCity, distance, metric, genre, start, end)
     }
 }

@@ -21,7 +21,6 @@
     <modules>
         <module>platform</module>
         <module>event</module>
-        <module>account</module>
         <module>view</module>
         <module>admin</module>
         <module>shared</module>

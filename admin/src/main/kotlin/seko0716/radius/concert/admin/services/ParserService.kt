@@ -1,11 +1,7 @@
 package seko0716.radius.concert.admin.services
 
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled
@@ -21,18 +17,17 @@ class ParserService @Autowired constructor(
     val eventParser: EventParser,
     val eventRepository: EventRepository
 ) {
-    @FlowPreview
-    suspend fun updateData(): Flow<Event> = coroutineScope {
+
+    suspend fun updateData(): List<Event> = coroutineScope {
         val events = cityParser.parse()
             .map {
                 async {
                     eventRepository.saveAllSync(eventParser.parse(it))
                 }
-            }.asFlow().flatMapConcat { it.await() }
+            }.flatMap { it.await() }
         events
     }
 
-    @FlowPreview
     @Scheduled(cron = "\${spring.application.events.dataset.refresh}")
     fun updateScheduleData() = runBlocking {
         val updateData = updateData()

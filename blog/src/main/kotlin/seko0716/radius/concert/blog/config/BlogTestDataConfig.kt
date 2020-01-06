@@ -16,6 +16,7 @@ class BlogTestDataConfig @Autowired constructor(
     @PostConstruct
     fun initBlogs() {
         if (mongoTemplate.count<Blog>() > 0) {
+//            mongoTemplate.findAllAndRemove<Blog>(Query.query(Criteria()))
             return
         }
         val author = mongoTemplate.findAll<User>()[0]
@@ -23,6 +24,7 @@ class BlogTestDataConfig @Autowired constructor(
             listOf(
                 Blog(
                     title = "Rock is the best, рэп - govno",
+                    mainImege = "https://всёчтонадо.рф/uploads/images/k/i/s/kish_rep_dermo_popsa_porasha_panki_hoj_pobeda_nasha.jpg",
                     content = """
 Наличие смысла
 Рок — это всегда идея. В каждой песне есть смысл, посыл, иногда и сюжет. Эти песни хочется переслушивать даже через десятилетия после релиза. Количество идей и сюжетов в роке бесчисленно в отличие от рэпа о соитиях и оскорблениях инакомыслящих. Актуальные темы есть и в рэпе, но именно рок способен обрисовать проблемы современности так, чтобы стать гимном поколения и войти в историю, как ассоциация с целой эпохой. Рок — это баллада, рассказ о чувствах. Рок — это история, в которую легко поверить. Рок — это призыв, который находит отклик в сердцах слушателей. Рок — это крик, который невозможно не услышать, которому хочется отвечать и вторить.
@@ -46,6 +48,7 @@ class BlogTestDataConfig @Autowired constructor(
                 ),
                 Blog(
                     title = "Лучшие концерты 2019 года по мнению редакции Роккульта",
+                    mainImege = "https://rockcult.ru/wp-content/uploads/2018/12/Neuromonah-Feofan-Moscow-Cition-Hall-1.12.2018-61.jpg",
                     content = """
 Мош во всю мощь
 Самый дикий концерт
@@ -179,6 +182,7 @@ What the гиг?
                 ),
                 Blog(
                     title = "Самые ожидаемые релизы января",
+                    mainImege = "https://rockcult.ru/wp-content/uploads/2018/03/Apocalyptica_Crocus_26.03.208_27-350x232.jpg",
                     content = """
 Apocalyptica
 Cell-0 (2020)

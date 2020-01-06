@@ -1,3 +1,5 @@
+let events_stored = [];
+
 const template = "{{#.}}\n" +
     "<div class=\"col-lg-6\">\n" +
     "    <div class=\"room-wrap d-md-flex ftco-animate fadeInUp\">\n" +

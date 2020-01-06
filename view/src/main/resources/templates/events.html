@@ -110,7 +110,6 @@
     citesTemplate += href + "    <li class=\"list-group-item\">{{name}}</span>\n" +
         "    </li></a>\n" +
         "{{/cites}}";
-    let events_stored = [];
     $.get(url)
         .then(data => {
             $.get(`/api/geocode/${city}`)

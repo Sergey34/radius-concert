@@ -3,6 +3,7 @@ spring:
     active: load_geocode_config
     include:
       - oauth2
+      - view
   application:
     geocode:
       file:

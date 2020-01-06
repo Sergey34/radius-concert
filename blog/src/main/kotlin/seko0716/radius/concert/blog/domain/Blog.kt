@@ -19,6 +19,7 @@ data class Blog(
     @Id
     val id: ObjectId = ObjectId.get(),
     val title: String,
+    val mainImege: String = "",
     val preview: String = "",
     val content: String,
     val author: User,

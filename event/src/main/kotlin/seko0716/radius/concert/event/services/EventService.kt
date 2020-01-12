@@ -5,6 +5,7 @@ import org.springframework.data.geo.Distance
 import org.springframework.data.geo.Metrics
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import seko0716.radius.concert.event.domains.Event
 import seko0716.radius.concert.event.repository.EventRepository
 import seko0716.radius.concert.shared.exceptions.CityNotFoundException
@@ -33,5 +34,13 @@ class EventService @Autowired constructor(
                 if (it.point.isNan()) throw CityNotFoundException(city)
                 eventRepository.getEvents(it.point, Distance(distance, metric), genre, start, end)
             }
+    }
+
+    fun getEvent(id: String): Mono<Event> {
+        return eventRepository.findById(id)
+    }
+
+    fun getEventsByCity(city: String): Flux<Event> {
+        return eventRepository.getEventsByCity(city)
     }
 }

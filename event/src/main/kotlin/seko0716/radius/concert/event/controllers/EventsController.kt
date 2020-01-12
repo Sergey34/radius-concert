@@ -5,6 +5,7 @@ import org.springframework.data.geo.Metrics
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import seko0716.radius.concert.event.domains.Event
 import seko0716.radius.concert.event.services.EventService
 import java.time.LocalDate
@@ -23,6 +24,16 @@ class EventsController @Autowired constructor(
         ) count: Int
     ): Flux<Event> {
         return eventService.getAllEvents(count)
+    }
+
+    @GetMapping("/events/{city}")
+    fun getEventsByCity(@PathVariable("city") city: String): Flux<Event> {
+        return eventService.getEventsByCity(city)
+    }
+
+    @GetMapping("/event/{id}")
+    fun getEvent(@PathVariable("id") id: String): Mono<Event> {
+        return eventService.getEvent(id)
     }
 
     @GetMapping(

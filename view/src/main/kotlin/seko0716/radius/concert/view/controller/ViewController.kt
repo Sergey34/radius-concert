@@ -18,6 +18,11 @@ class ViewController {
         return "events"
     }
 
+    @GetMapping("/event/*")
+    fun event(model: Model): String {
+        return "event-single"
+    }
+
     @GetMapping("/blog")
     fun blog(model: Model): String {
         return "blog"

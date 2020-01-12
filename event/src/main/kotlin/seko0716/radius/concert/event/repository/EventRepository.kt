@@ -8,12 +8,14 @@ import org.springframework.data.geo.Point
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.find
 import org.springframework.data.mongodb.core.findAll
+import org.springframework.data.mongodb.core.findById
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import seko0716.radius.concert.event.domains.Event
 import java.time.LocalDate
 
@@ -56,7 +58,15 @@ class EventRepository @Autowired constructor(
             )
         }
 
-        return mongoTemplate.find<Event>(Query.query(Criteria().andOperator(*criteria.toTypedArray())))
+        return mongoTemplate.find(Query.query(Criteria().andOperator(*criteria.toTypedArray())))
+    }
+
+    fun findById(id: String): Mono<Event> {
+        return mongoTemplate.findById(id)
+    }
+
+    fun getEventsByCity(city: String): Flux<Event> {
+        return mongoTemplate.find(Query.query(Criteria.where("city.name").`is`(city)))
     }
 }
 

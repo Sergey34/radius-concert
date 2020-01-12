@@ -96,8 +96,12 @@
     let citesTemplate = "{{#cites}}\n"
     let href = "<a href=\"/events/{{nameForSearch}}/{{distance}}/{{metric}}\">\n";
 
-
-    let url = `/api/events/${city}/${distance}/${metric}`;
+    let url;
+    if (distance === undefined) {
+        url = `/api/events/${city}`;
+    } else {
+        url = `/api/events/${city}/${distance}/${metric}`;
+    }
     if (genre !== null && genre !== undefined) {
         url += `/${genre}`;
         href = "<a href=\"/events/{{nameForSearch}}/{{distance}}/{{metric}}/{{genre}}\">\n";

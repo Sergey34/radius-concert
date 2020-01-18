@@ -15,7 +15,7 @@ class MongodbGeocodeService @Autowired constructor(
 
     @Cacheable(cacheNames = ["geocode"])
     override fun getGeocodeById(name: String): Mono<Geocode> {
-        return geocodeRepository.findById(name)
+        return geocodeRepository.findById(name.toLowerCase())
     }
 
     override fun addGeocodes(geocodes: List<Geocode>): Flux<Geocode> {

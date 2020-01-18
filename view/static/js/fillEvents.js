@@ -7,9 +7,9 @@ const template = "{{#.}}\n" +
     "        <div class=\"half {{class}} d-flex align-items-center\">\n" +
     "            <div class=\"text p-4 text-center\">\n" +
     "                <p class=\"mb-0\">{{#event.tickets}}<span class=\"price mr-1\">{{price.min}}-{{price.max}}р</span>{{/event.tickets}}" +
-    "                <p class=\"mb-0\"><span class=\"price mr-1\">{{city.name}}, {{scheduleInfo.dateEnd}}</span>" +
+    "                <p class=\"mb-0\"><span class=\"price mr-1\">{{city.name}}, {{scheduleInfo.regularity.singleShowtime}}</span>" +
     "                <h3 class=\"mb-3\"><a href=\"/event/{{id}}\">{{event.title}}</a></h3>\n" +
-    "                <p class=\"pt-1\"><a class=\"btn-custom px-3 py-2 rounded\" href=\"/event/{{id}}\">Подробнее ({{city.type}})\n" +
+    "                <p class=\"pt-1\"><a class=\"btn-custom px-3 py-2 rounded\" href=\"/event/{{id}}\">Подробнее" +
     "                    <span class=\"icon-long-arrow-right\"></span></a></p>\n" +
     "            </div>\n" +
     "        </div>\n" +
@@ -18,6 +18,22 @@ const template = "{{#.}}\n" +
     "{{/.}}";
 
 let lastLoaded;
+
+const similarEventsTemplate = '{{#.}}<div class="block-21 mb-4 d-flex">\n' +
+    '            <a class="blog-img mr-4" style="background-image: url({{event.image.microdata.url}});"></a>\n' +
+    '            <div class="text">\n' +
+    '                <h3 class="heading"><a href="/event/{{id}}">{{event.title}}</a></h3>\n' +
+    '                <div class="meta">\n' +
+    '                    <div><a href="/event/{{id}}"><span class="icon-calendar"></span> {{scheduleInfo.regularity.singleShowtime}}</a></div>\n' +
+    '                    <div><a href="/events/{{city.name}}"><span class="icon-location_city"></span> {{city.name}}</a></div>\n' +
+    '                </div>\n' +
+    '            </div>\n' +
+    '        </div>{{/.}}';
+
+function fillSimilarEvents(events) {
+    let eventsRender = Mustache.render(similarEventsTemplate, events);
+    $('#similar_events').html(eventsRender);
+}
 
 function fillEvents(from, to) {
     if (to > events_stored.length) {

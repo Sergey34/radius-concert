@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import seko0716.radius.concert.event.domains.Event
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 @Repository
@@ -50,7 +50,13 @@ class EventRepository @Autowired constructor(
         return eventMongoRepository.saveAll(parse)
     }
 
-    fun getEvents(point: Point, distance: Distance, genre: String?, start: LocalDate?, end: LocalDate?): Flux<Event> {
+    fun getEvents(
+        point: Point,
+        distance: Distance,
+        genre: String?,
+        start: LocalDateTime?,
+        end: LocalDateTime?
+    ): Flux<Event> {
         val criteria = mutableListOf(Criteria.where("city.position").withinSphere(Circle(point, distance)))
         genre?.run {
             if (genre != "all") {
@@ -60,7 +66,7 @@ class EventRepository @Autowired constructor(
         if (start != null && end != null) {
             criteria.add(
                 Criteria().orOperator(
-                    Criteria.where("scheduleInfo.dateEnd").gte(start).lte(end)
+                    Criteria.where("scheduleInfo.regularity.singleShowtime").gte(start).lte(end)
                 )
             )
         }

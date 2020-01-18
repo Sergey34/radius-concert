@@ -11,6 +11,8 @@ import seko0716.radius.concert.event.repository.EventRepository
 import seko0716.radius.concert.shared.exceptions.CityNotFoundException
 import seko0716.radius.concert.shared.isNan
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 @Service
 class EventService @Autowired constructor(
@@ -32,7 +34,21 @@ class EventService @Autowired constructor(
         return geocodeService.getGeocodeById(city.toLowerCase())
             .flatMapMany {
                 if (it.point.isNan()) throw CityNotFoundException(city)
-                eventRepository.getEvents(it.point, Distance(distance, metric), genre, start, end)
+                eventRepository.getEvents(
+                    it.point, Distance(distance, metric), genre,
+                    start?.let { d ->
+                        LocalDateTime.of(
+                            d,
+                            LocalTime.MIN
+                        )
+                    },
+                    end?.let { d ->
+                        LocalDateTime.of(
+                            d,
+                            LocalTime.MAX
+                        )
+                    }
+                )
             }
     }
 

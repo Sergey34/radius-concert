@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile
 import org.springframework.data.geo.Point
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.count
-import seko0716.radius.concert.event.domains.Geocode
+import seko0716.radius.concert.geocode.domains.Geocode
 import java.io.File
 import javax.annotation.PostConstruct
 

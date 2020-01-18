@@ -1,4 +1,4 @@
-package seko0716.radius.concert.event.controllers
+package seko0716.radius.concert.geocode.controller
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import seko0716.radius.concert.event.domains.Geocode
-import seko0716.radius.concert.event.services.GeocodeService
+import seko0716.radius.concert.geocode.domains.Geocode
+import seko0716.radius.concert.geocode.services.GeocodeService
 
 @RestController
 @RequestMapping("/api")

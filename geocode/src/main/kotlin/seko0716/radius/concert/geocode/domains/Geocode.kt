@@ -1,4 +1,4 @@
-package seko0716.radius.concert.event.domains
+package seko0716.radius.concert.geocode.domains
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.geo.Point
@@ -13,6 +13,7 @@ data class Geocode(
 ) {
     companion object {
         @JvmField
-        val EMPTY_GEOCODE = Geocode("", "", Point(Double.NaN, Double.NaN))
+        val EMPTY_GEOCODE =
+            Geocode("", "", Point(Double.NaN, Double.NaN))
     }
 }

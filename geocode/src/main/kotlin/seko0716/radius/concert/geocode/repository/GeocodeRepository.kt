@@ -1,4 +1,4 @@
-package seko0716.radius.concert.event.repository
+package seko0716.radius.concert.geocode.repository
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import seko0716.radius.concert.event.domains.Geocode
+import seko0716.radius.concert.geocode.domains.Geocode
 
 @Repository
 class GeocodeRepository @Autowired constructor(

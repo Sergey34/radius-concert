@@ -7,9 +7,9 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import reactor.core.publisher.Mono
-import seko0716.radius.concert.event.domains.Geocode
-import seko0716.radius.concert.event.services.GeocodeService
-import seko0716.radius.concert.event.services.MongodbGeocodeService
+import seko0716.radius.concert.geocode.domains.Geocode
+import seko0716.radius.concert.geocode.services.GeocodeService
+import seko0716.radius.concert.geocode.services.MongodbGeocodeService
 
 @Suppress("UNCHECKED_CAST")
 internal class YandexAfishaCityParserTest {

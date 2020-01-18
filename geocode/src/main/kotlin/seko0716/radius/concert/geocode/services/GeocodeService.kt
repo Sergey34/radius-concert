@@ -1,8 +1,8 @@
-package seko0716.radius.concert.event.services
+package seko0716.radius.concert.geocode.services
 
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import seko0716.radius.concert.event.domains.Geocode
+import seko0716.radius.concert.geocode.domains.Geocode
 
 
 interface GeocodeService {

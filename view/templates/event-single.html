@@ -200,7 +200,8 @@
 
             <div class="col-lg-8 ftco-animate">
                 <div class="row">
-                    <div class="col-lg-7"><img alt="" class="img-fluid" src="../images/image_1.jpg"></div>
+                    <div class="col-lg-7"><img alt="" class="img-fluid" id="event_logo" src="../images/image_1.jpg">
+                    </div>
                     <div class="col-lg-4">
                         <div class="info" id="info">
 
@@ -361,6 +362,7 @@
         .then(data => {
             console.log(data);
             $('#event_title').text(data.event.title);
+            $('#event_logo').attr("src", data.event.image.microdata.url);
 
             const template = '{{#.}} <a class="tag-cloud-link" href="/events/tags/{{code}}">{{name}}</a> {{/.}}';
             let tagsRender = Mustache.render(template, data.event.tags);

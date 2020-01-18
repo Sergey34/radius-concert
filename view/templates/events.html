@@ -99,8 +99,13 @@
     let url;
     if (distance === undefined) {
         url = `/api/events/${city}`;
+        $('#current_city').text(decodeURI(city));
     } else {
         url = `/api/events/${city}/${distance}/${metric}`;
+        $.get(`/api/geocode/${city}`)
+            .then(it => {
+                $('#current_city').text(it.name);
+            });
     }
     if (genre !== null && genre !== undefined) {
         url += `/${genre}`;
@@ -116,11 +121,7 @@
         "{{/cites}}";
     $.get(url)
         .then(data => {
-            console.log(data)
-            $.get(`/api/geocode/${city}`)
-                .then(it => {
-                    $('#current_city').text(it.name);
-                });
+            console.log(data);
             if (data.length > 0) {
                 events_stored = data;
                 fillEvents(0, 50);

@@ -2,6 +2,7 @@ package seko0716.radius.concert.event.repository
 
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Sort
 import org.springframework.data.geo.Circle
 import org.springframework.data.geo.Distance
 import org.springframework.data.geo.Point
@@ -35,7 +36,14 @@ class EventRepository @Autowired constructor(
     }
 
     fun getEvents(count: Int): Flux<Event> {
-        return mongoTemplate.find(Query().limit(count))
+        return mongoTemplate.find(
+            Query().limit(count).with(
+                Sort.by(
+                    Sort.Direction.ASC,
+                    "scheduleInfo.dateStarted"
+                )
+            )
+        )
     }
 
     fun saveAllSync(parse: List<Event>): MutableList<Event> {
@@ -58,7 +66,14 @@ class EventRepository @Autowired constructor(
             )
         }
 
-        return mongoTemplate.find(Query.query(Criteria().andOperator(*criteria.toTypedArray())))
+        return mongoTemplate.find(
+            Query.query(Criteria().andOperator(*criteria.toTypedArray())).with(
+                Sort.by(
+                    Sort.Direction.ASC,
+                    "scheduleInfo.dateStarted"
+                )
+            )
+        )
     }
 
     fun findById(id: String): Mono<Event> {
@@ -66,7 +81,14 @@ class EventRepository @Autowired constructor(
     }
 
     fun getEventsByCity(city: String): Flux<Event> {
-        return mongoTemplate.find(Query.query(Criteria.where("city.name").`is`(city)))
+        return mongoTemplate.find(
+            Query.query(Criteria.where("city.name").`is`(city)).with(
+                Sort.by(
+                    Sort.Direction.ASC,
+                    "scheduleInfo.dateStarted"
+                )
+            )
+        )
     }
 }
 

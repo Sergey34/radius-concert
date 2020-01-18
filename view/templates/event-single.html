@@ -201,8 +201,13 @@
             <div class="col-lg-8 ftco-animate">
                 <div class="row">
                     <div class="col-lg-7"><img alt="" class="img-fluid" src="../images/image_1.jpg"></div>
-                    <div class="col-lg-4">тут будет расписание, цены, места проведения</div>
+                    <div class="col-lg-4">
+                        <div class="info" id="info">
+
+                        </div>
+                    </div>
                 </div>
+
                 <div class="pt-5 mt-5">
                     <h3 class="mb-5">Обсуждение</h3>
                     <div class="messaging">
@@ -369,6 +374,22 @@
             let addressRender = Mustache.render(addressTemplate, data);
             $('#place').html(addressRender);
 
+
+            const infoTemplate = '{{#.}} <div class="date ">\n' +
+                '    <span>{{scheduleInfo.regularity.singleShowtime}}</span>\n' +
+                '</div>\n' +
+                '<div class="place" data-ajaxupdateable="place">\n' +
+                '    <div class="place-name"><a href="/koncertnye-zaly/fok-zvezdnyiy-5bab64e06f3b6">{{scheduleInfo.oneOfPlaces.title}}</a></div>\n' +
+                '    <div class="place-adress">{{scheduleInfo.oneOfPlaces.address}}</div>\n' +
+                '</div>\n' +
+                '<div class="cost rub">\n' +
+                '    Стоимость билетов:\n' +
+                '    {{#event.tickets}}' +
+                '<span class="price" data-ajaxupdateable="price">{{price.min}} — {{price.max}} Р.</span>\n' +
+                '{{/event.tickets}}' +
+                '</div>{{/.}}'
+            let infoRender = Mustache.render(infoTemplate, data);
+            $('#info').html(infoRender);
         })
 </script>
 </body>

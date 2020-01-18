@@ -40,7 +40,7 @@ class YandexAfishaEventsParser constructor(
             val (paging, valid, data) = getPage(url)
             if (valid) {
                 data
-                    .filter { it.scheduleInfo.oneOfPlaces?.coordinates != null || it.scheduleInfo.regularity.singleShowtime != null }
+                    .filter { it.scheduleInfo.oneOfPlaces?.coordinates != null && it.scheduleInfo.regularity.singleShowtime != null }
                     .map {
                         val (latitude, longitude) = it.scheduleInfo.oneOfPlaces!!.coordinates!!
                         val position = GeoJsonPoint(latitude, longitude)

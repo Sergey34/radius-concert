@@ -1,17 +1,17 @@
-package seko0716.radius.concert.blog.config
+package seko0716.radius.concert.admin.config
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.count
-import org.springframework.data.mongodb.core.findAll
 import seko0716.radius.concert.blog.domain.Blog
 import seko0716.radius.concert.security.domains.User
 import javax.annotation.PostConstruct
 
 @Configuration
 class BlogTestDataConfig @Autowired constructor(
-    private val mongoTemplate: MongoTemplate
+    private val mongoTemplate: MongoTemplate,
+    private val defaultUser: User
 ) {
     @PostConstruct
     fun initBlogs() {
@@ -19,7 +19,7 @@ class BlogTestDataConfig @Autowired constructor(
 //            mongoTemplate.findAllAndRemove<Blog>(Query.query(Criteria()))
             return
         }
-        val author = mongoTemplate.findAll<User>()[0]
+        val author = defaultUser
         mongoTemplate.insertAll(
             listOf(
                 Blog(

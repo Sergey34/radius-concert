@@ -24,6 +24,16 @@
         </dependency>
         <dependency>
             <groupId>seko0716.redius.concert</groupId>
+            <artifactId>blog</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>seko0716.redius.concert</groupId>
+            <artifactId>security</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>seko0716.redius.concert</groupId>
             <artifactId>shared</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

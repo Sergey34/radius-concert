@@ -40,7 +40,7 @@ class EventRepository @Autowired constructor(
             Query().limit(count).with(
                 Sort.by(
                     Sort.Direction.ASC,
-                    "scheduleInfo.dateStarted"
+                    "scheduleInfo.dateEnd"
                 )
             )
         )
@@ -60,7 +60,6 @@ class EventRepository @Autowired constructor(
         if (start != null && end != null) {
             criteria.add(
                 Criteria().orOperator(
-                    Criteria.where("scheduleInfo.dateStarted").gte(start).lte(end),
                     Criteria.where("scheduleInfo.dateEnd").gte(start).lte(end)
                 )
             )
@@ -70,7 +69,7 @@ class EventRepository @Autowired constructor(
             Query.query(Criteria().andOperator(*criteria.toTypedArray())).with(
                 Sort.by(
                     Sort.Direction.ASC,
-                    "scheduleInfo.dateStarted"
+                    "scheduleInfo.dateEnd"
                 )
             )
         )

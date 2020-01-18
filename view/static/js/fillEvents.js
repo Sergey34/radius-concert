@@ -7,7 +7,7 @@ const template = "{{#.}}\n" +
     "        <div class=\"half {{class}} d-flex align-items-center\">\n" +
     "            <div class=\"text p-4 text-center\">\n" +
     "                <p class=\"mb-0\">{{#event.tickets}}<span class=\"price mr-1\">{{price.min}}-{{price.max}}р</span>{{/event.tickets}}" +
-    "                <p class=\"mb-0\"><span class=\"price mr-1\">{{city.name}}, {{scheduleInfo.dateStarted}}-{{scheduleInfo.dateEnd}}</span>" +
+    "                <p class=\"mb-0\"><span class=\"price mr-1\">{{city.name}}, {{scheduleInfo.dateEnd}}</span>" +
     "                <h3 class=\"mb-3\"><a href=\"/event/{{id}}\">{{event.title}}</a></h3>\n" +
     "                <p class=\"pt-1\"><a class=\"btn-custom px-3 py-2 rounded\" href=\"/event/{{id}}\">Подробнее ({{city.type}})\n" +
     "                    <span class=\"icon-long-arrow-right\"></span></a></p>\n" +

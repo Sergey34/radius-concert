@@ -371,7 +371,7 @@
             const addressTemplate = '{{#.}} <span class="mr-2">\n' +
                 '    <a href="/events/{{city.name}}">{{city.name}}</a>\n' +
                 '</span>\n' +
-                '<span>{{scheduleInfo.oneOfPlaces.address}}</span> {{/.}}'
+                '<span>{{scheduleInfo.oneOfPlaces.address}}</span> {{/.}}';
 
             let addressRender = Mustache.render(addressTemplate, data);
             $('#place').html(addressRender);
@@ -389,7 +389,7 @@
                 '    {{#event.tickets}}' +
                 '<span class="price" data-ajaxupdateable="price">{{price.min}} — {{price.max}} Р.</span>\n' +
                 '{{/event.tickets}}' +
-                '</div>{{/.}}'
+                '</div>{{/.}}';
             let infoRender = Mustache.render(infoTemplate, data);
             $('#info').html(infoRender);
         })

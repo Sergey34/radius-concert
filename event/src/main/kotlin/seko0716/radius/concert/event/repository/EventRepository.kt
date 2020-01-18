@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.geo.Circle
 import org.springframework.data.geo.Distance
 import org.springframework.data.geo.Point
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate
-import org.springframework.data.mongodb.core.find
-import org.springframework.data.mongodb.core.findAll
-import org.springframework.data.mongodb.core.findById
+import org.springframework.data.mongodb.core.*
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.repository.MongoRepository
@@ -23,6 +20,7 @@ import java.time.LocalDate
 @Repository
 class EventRepository @Autowired constructor(
     private val mongoTemplate: ReactiveMongoTemplate,
+    private val mongoTemplate2: MongoTemplate,
     private val eventReactiveMongoRepository: EventReactiveMongoRepository,
     private val eventMongoRepository: EventMongoRepository
 ) {

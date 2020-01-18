@@ -21,7 +21,7 @@ let lastLoaded;
 
 function fillEvents(from, to) {
     if (to > events_stored.length) {
-        to = events_stored;
+        to = events_stored.length;
     }
     if (from >= to) {
         return

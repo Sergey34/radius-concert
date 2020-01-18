@@ -116,6 +116,7 @@
         "{{/cites}}";
     $.get(url)
         .then(data => {
+            console.log(data)
             $.get(`/api/geocode/${city}`)
                 .then(it => {
                     $('#current_city').text(it.name);

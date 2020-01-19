@@ -15,6 +15,11 @@ import seko0716.radius.concert.geocode.services.GeocodeService
 class GeocodeController @Autowired constructor(
     private val geocodeService: GeocodeService
 ) {
+    @GetMapping("/geocodes")
+    fun geocodes(): Flux<Geocode> {
+        return geocodeService.getAllGeocodes()
+    }
+
     @GetMapping("/geocodes/{template}")
     fun searchGeocode(@PathVariable("template") template: String): Flux<Geocode> {
         return geocodeService.searchGeocodes(template)

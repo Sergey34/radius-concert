@@ -6,7 +6,7 @@ import seko0716.radius.concert.geocode.domains.Geocode
 
 
 interface GeocodeService {
-    fun addGeocodes(geocodes: List<Geocode>): Flux<Geocode>
     fun searchGeocodes(name: String): Flux<Geocode>
     fun getGeocodeById(name: String): Mono<Geocode>
+    fun getAllGeocodes(): Flux<Geocode>
 }

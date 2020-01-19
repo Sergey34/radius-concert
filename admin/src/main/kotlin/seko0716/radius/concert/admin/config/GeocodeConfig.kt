@@ -5,20 +5,17 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 import org.springframework.data.geo.Point
-import org.springframework.data.mongodb.core.MongoTemplate
-import org.springframework.data.mongodb.core.count
 import seko0716.radius.concert.geocode.domains.Geocode
 import java.io.File
-import javax.annotation.PostConstruct
 
 @Profile("load_geocode_config")
 @Configuration
 class GeocodeConfig
 @Autowired constructor(
-    private val mongoTemplate: MongoTemplate,
     private val mapper: ObjectMapper
 ) {
     companion object {
@@ -26,13 +23,10 @@ class GeocodeConfig
         val logger: Logger = LoggerFactory.getLogger(GeocodeConfig::class.java)
     }
 
-    @PostConstruct
-    fun importGeocodes() {
-        if (mongoTemplate.count<Geocode>() != 0L) {
-            return
-        }
+    @Bean
+    fun geocodeStorage(): Map<String, Geocode> {
         logger.info("Load geocodes")
-        val distinctBy = mapper.readValue<List<Pair<String, SerderPoint>>>(File("geocodes.json"))
+        return mapper.readValue<List<Pair<String, SerderPoint>>>(File("geocodes.json"))
             .asSequence()
             .filter { it.first.startsWith("Россия, ") }
             .map { g ->
@@ -51,20 +45,19 @@ class GeocodeConfig
             .toMap()
             .flatMap {
                 if (it.value.size == 1) {
-                    it.value
+                    it.value.map { g ->
+                        g.nameForSearch to g
+                    }
                 } else {
                     it.value.map { g ->
-                        Geocode(
+                        g.name.toLowerCase() to Geocode(
                             g.name.toLowerCase(),
                             g.name,
                             g.point
                         )
                     }
                 }
-            }
-            .let {
-                mongoTemplate.insertAll(it)
-            }
+            }.toMap()
     }
 }
 

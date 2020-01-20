@@ -8,12 +8,13 @@ import seko0716.radius.concert.geocode.domains.Geocode
 
 @Repository
 class GeocodeRepository @Autowired constructor(
-    private val geocodeStorage: Map<String, Geocode>
+    private val geocodeStorage: Map<String, Geocode>,
+    private val geocodeStorage2: Map<String, List<Geocode>>
 ) {
     private val values = Flux.fromIterable(geocodeStorage.values)
 
     fun getGeocodesByTemplate(template: String): Flux<Geocode> {
-        return values.filter { it.nameForSearch.contains(template) }
+        return Flux.fromIterable(geocodeStorage2.filter { it.key.contains(template) }.flatMap { it.value })
     }
 
     fun findById(name: String): Mono<Geocode> {

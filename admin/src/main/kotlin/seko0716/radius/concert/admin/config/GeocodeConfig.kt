@@ -31,12 +31,12 @@ class GeocodeConfig
             .map { g ->
                 val name = g.first.removePrefix("Россия, ")
                 Geocode(
-                    name.toLowerCase().substring(
+                    nameForSearch = name.toLowerCase().substring(
                         name.toLowerCase().lastIndexOf(',') + 1,
                         name.toLowerCase().length
                     ).trim(),
-                    name,
-                    Point(g.second.y, g.second.x)
+                    name = name,
+                    point = Point(g.second.x, g.second.y)
                 )
             }
             .distinctBy { it.name.toLowerCase() }

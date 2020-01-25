@@ -1,7 +1,9 @@
 package seko0716.radius.concert.admin.services.parsers.yandex.afisha
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import seko0716.radius.concert.event.domains.Event
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 internal data class YandexPage(
     val paging: Page = Page(),
     val valid: Boolean = true,

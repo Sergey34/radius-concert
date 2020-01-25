@@ -25,8 +25,8 @@ class GeocodeController @Autowired constructor(
         return geocodeService.searchGeocodes(template)
     }
 
-    @GetMapping("/geocode/{template}")
-    fun getGeocode(@PathVariable("template") template: String): Mono<Geocode> {
+    @GetMapping("/geocode/{id}")
+    fun getGeocode(@PathVariable("id") template: String): Mono<Geocode> {
         return geocodeService.getGeocodeById(template)
     }
 }

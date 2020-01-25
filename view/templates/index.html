@@ -25,6 +25,10 @@
     <link href="/css/icomoon.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css"/>
+    <link href="https://goodies.pixabay.com/jquery/auto-complete/jquery.auto-complete.css" rel="stylesheet"
+          type="text/css"/>
+
+
 </head>
 <body>
 
@@ -68,15 +72,10 @@
         <div class="row no-gutters">
             <div class="col-lg-12">
                 <form action="#" class="booking-form aside-stretch">
+                    <input autocomplete="off" autofocus="" id="city" name="q" placeholder="Где вы?"
+                           style="width:100%;outline:0"
+                           type="text">
                     <div class="row">
-                        <div class="col-md d-flex py-md-4">
-                            <div class="form-group align-self-stretch d-flex align-items-end">
-                                <div class="wrap align-self-stretch py-3 px-4">
-                                    <label for="city" id="l_city">Где вы?</label>
-                                    <input class="form-control" id="city" placeholder="Воскресенское" type="text">
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-md d-flex py-md-4">
                             <div class="form-group align-self-stretch d-flex align-items-end">
                                 <div class="wrap align-self-stretch py-3 px-4">
@@ -241,7 +240,26 @@
 <script src="/js/fillBlog.js"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" type="text/javascript"></script>
+<script src="https://goodies.pixabay.com/jquery/auto-complete/jquery.auto-complete.js" type="text/javascript"></script>
 
+<script>
+    $('input[name="q"]').autoComplete({
+        minChars: 3,
+        delay: 150,
+        cache: true,
+        source: function (term, response) {
+            $.getJSON('/api/geocodes/' + term, function (data) {
+                response(data);
+            });
+        },
+        renderItem: function (item, search) {
+            search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+            return '<div class="autocomplete-suggestion" data-val="' + item.name + '">'
+                + item.name.replace(re, "<b>$1</b>") + '</div>';
+        }
+    });
+</script>
 
 <script>
     $.get(`/api/blogs/3`, function (data) {

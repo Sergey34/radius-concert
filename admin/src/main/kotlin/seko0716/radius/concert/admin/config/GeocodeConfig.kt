@@ -24,29 +24,35 @@ class GeocodeConfig
     }
 
     @Bean
-    fun geocodeStorage(): Map<String, Geocode> {
-        logger.info("Load geocodes")
+    fun geocodes(): Map<String, List<Geocode>> {
         return mapper.readValue<List<Pair<String, SerderPoint>>>(File("geocodes.json"))
             .asSequence()
             .filter { it.first.startsWith("Россия, ") }
             .map { g ->
                 val name = g.first.removePrefix("Россия, ")
                 Geocode(
-                    name.toLowerCase().substring(
+                    nameForSearch = name.toLowerCase().substring(
                         name.toLowerCase().lastIndexOf(',') + 1,
                         name.toLowerCase().length
                     ).trim(),
-                    name,
-                    Point(g.second.y, g.second.x)
+                    name = name,
+                    point = Point(g.second.x, g.second.y)
                 )
             }
             .distinctBy { it.name.toLowerCase() }
             .groupBy { it.nameForSearch }
+    }
+
+    @Bean
+    fun geocodeStorage(): Map<String, Geocode> {
+        logger.info("Load geocodes")
+
+        return geocodes()
             .toMap()
             .flatMap {
                 if (it.value.size == 1) {
                     it.value.map { g ->
-                        g.nameForSearch to g
+                        g.name.toLowerCase() to g
                     }
                 } else {
                     it.value.map { g ->

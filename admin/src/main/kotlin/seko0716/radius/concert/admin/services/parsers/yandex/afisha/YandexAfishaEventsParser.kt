@@ -43,7 +43,7 @@ class YandexAfishaEventsParser constructor(
                     .filter { it.scheduleInfo.oneOfPlaces?.coordinates != null && it.scheduleInfo.regularity.singleShowtime != null }
                     .map {
                         val (latitude, longitude) = it.scheduleInfo.oneOfPlaces!!.coordinates!!
-                        val position = GeoJsonPoint(latitude, longitude)
+                        val position = GeoJsonPoint(longitude, latitude)
                         it.city = City(city.type, city.url, city.name, position, city.id)
                         it.event.url = "https://afisha.yandex.ru${it.event.url}"
                         it.event.tickets = it.event.tickets
@@ -64,8 +64,7 @@ class YandexAfishaEventsParser constructor(
         return result
     }
 
-    override fun type() =
-        TYPE
+    override fun type() = TYPE
 
     private suspend fun getPage(url: String) = attempt({
         withContext(Dispatchers.IO) {

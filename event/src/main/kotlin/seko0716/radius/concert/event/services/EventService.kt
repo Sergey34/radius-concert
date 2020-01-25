@@ -60,4 +60,8 @@ class EventService @Autowired constructor(
     fun getEventsByCity(city: String): Flux<Event> {
         return eventRepository.getEventsByCity(city)
     }
+
+    fun getEventsByTitle(title: String): Flux<Event> {
+        return eventRepository.getEventsByTitle(title)
+    }
 }

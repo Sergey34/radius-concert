@@ -93,4 +93,15 @@ class EventRepository @Autowired constructor(
             )
         )
     }
+
+    fun getEventsByTitle(title: String): Flux<Event> {
+        return mongoTemplate.find(
+            Query.query(Criteria.where("event.title").regex(title, "i")).with(
+                Sort.by(
+                    Sort.Direction.ASC,
+                    "scheduleInfo.dateStarted"
+                )
+            )
+        )
+    }
 }

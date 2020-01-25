@@ -31,6 +31,11 @@ class EventsController @Autowired constructor(
         return eventService.getEventsByCity(city)
     }
 
+    @GetMapping("/events/title/{title}")
+    fun getEventsByTitle(@PathVariable("title") title: String): Flux<Event> {
+        return eventService.getEventsByTitle(title)
+    }
+
     @GetMapping("/event/{id}")
     fun getEvent(@PathVariable("id") id: String): Mono<Event> {
         return eventService.getEvent(id)

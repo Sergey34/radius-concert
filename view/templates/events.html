@@ -92,63 +92,83 @@
 
 <script>
     const [city, distance, metric, genre, start, end] = window.location.href.split('/').slice(4, 10);
+    const eventTitle = window.location.href.split('?')[1].split("=")[1];
 
-    let citesTemplate = "{{#cites}}\n"
-    let href = "<a href=\"/events/{{name}}/{{distance}}/{{metric}}\">\n";
+    function loadEventsByCity() {
+        let citesTemplate = "{{#cites}}\n";
+        let href = "<a href=\"/events/{{name}}/{{distance}}/{{metric}}\">\n";
 
-    let url;
-    if (distance === undefined) {
-        url = `/api/events/${city}`;
-        $('#current_city').text(decodeURI(city));
-    } else {
-        url = `/api/events/${city}/${distance}/${metric}`;
-        $.get(`/api/geocode/${city}`)
-            .then(it => {
-                $('#current_city').text(it.name);
+        let url;
+        if (distance === undefined) {
+            url = `/api/events/${city}`;
+            $('#current_city').text(decodeURI(city));
+        } else {
+            url = `/api/events/${city}/${distance}/${metric}`;
+            $.get(`/api/geocode/${city}`)
+                .then(it => {
+                    $('#current_city').text(it.name);
+                });
+        }
+        if (genre !== null && genre !== undefined) {
+            url += `/${genre}`;
+            href = "<a href=\"/events/{{name}}/{{distance}}/{{metric}}/{{genre}}\">\n";
+            if (start !== null && start !== undefined && end !== null && end !== undefined) {
+                url += `/${start}/${end}`;
+                href = "<a href=\"/events/{{name}}/{{distance}}/{{metric}}/{{genre}}/{{start}}/{{end}}\">\n";
+            }
+        }
+
+        citesTemplate += href + "    <li class=\"list-group-item\">{{name}}</span>\n" +
+            "    </li></a>\n" +
+            "{{/cites}}";
+        $.get(url)
+            .then(data => {
+                console.log(data);
+                if (data.length > 0) {
+                    events_stored = data;
+                    fillEvents(0, 50);
+                }
+            })
+            .catch(err => {
+                if (err.status !== 404) {
+                    return
+                }
+                $.get(`/api/geocodes/${city}`)
+                    .then(geocodes => {
+                        let cites = Mustache.render(citesTemplate, {
+                            cites: geocodes,
+                            distance: distance,
+                            metric: metric,
+                            genre: genre,
+                            start: start,
+                            end: end
+                        });
+                        $('#city_list').html(cites);
+
+                        $('#modalCitySelector').modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                    });
             });
     }
-    if (genre !== null && genre !== undefined) {
-        url += `/${genre}`;
-        href = "<a href=\"/events/{{name}}/{{distance}}/{{metric}}/{{genre}}\">\n";
-        if (start !== null && start !== undefined && end !== null && end !== undefined) {
-            url += `/${start}/${end}`;
-            href = "<a href=\"/events/{{name}}/{{distance}}/{{metric}}/{{genre}}/{{start}}/{{end}}\">\n";
-        }
+
+    function loadEventsByEventTitle() {
+        $.get(`/api/events/title/${decodeURI(eventTitle).replace('+', ' ')}`)
+            .then(data => {
+                console.log(data);
+                if (data.length > 0) {
+                    events_stored = data;
+                    fillEvents(0, 50);
+                }
+            })
     }
 
-    citesTemplate += href + "    <li class=\"list-group-item\">{{name}}</span>\n" +
-        "    </li></a>\n" +
-        "{{/cites}}";
-    $.get(url)
-        .then(data => {
-            console.log(data);
-            if (data.length > 0) {
-                events_stored = data;
-                fillEvents(0, 50);
-            }
-        })
-        .catch(err => {
-            if (err.status !== 404) {
-                return
-            }
-            $.get(`/api/geocodes/${city}`)
-                .then(geocodes => {
-                    let cites = Mustache.render(citesTemplate, {
-                        cites: geocodes,
-                        distance: distance,
-                        metric: metric,
-                        genre: genre,
-                        start: start,
-                        end: end
-                    });
-                    $('#city_list').html(cites);
-
-                    $('#modalCitySelector').modal({
-                        backdrop: 'static',
-                        keyboard: false
-                    });
-                });
-        });
+    if (!eventTitle) {
+        loadEventsByCity();
+    } else {
+        loadEventsByEventTitle();
+    }
 
 </script>
 </body>

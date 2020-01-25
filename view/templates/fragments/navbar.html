@@ -170,6 +170,7 @@
                 <li class="nav-item"><a class="nav-link" href="/cites">Города</a></li>
                 <li class="nav-item"><a class="nav-link" href="/blog">Блог</a></li>
 
+
                 <li class="nav-item dropdown-container" sec:authorize="isAuthenticated()">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
                        sec:authentication="name">Seko</a>
@@ -242,6 +243,11 @@
                     </ul>
                 </li>
             </ul>
+            <form action="/events" class="search-form" method="get">
+                <div class="form-group">
+                    <input class="" name="title" placeholder="Кипелов" type="text">
+                </div>
+            </form>
         </div>
     </div>
 </nav>

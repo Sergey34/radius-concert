@@ -3,7 +3,7 @@ let events_stored = [];
 const template = "{{#.}}\n" +
     "<div class=\"col-lg-6\">\n" +
     "    <div class=\"room-wrap d-md-flex ftco-animate fadeInUp\">\n" +
-    "        <a class=\"img  {{#order_md_last}}order-md-last{{/order_md_last}}\" href=\"/event/{{id}}\" style=\"background-image: url({{event.image.microdata.url}});\"></a>\n" +
+    "        <a class=\"img  {{#order_md_last}}order-md-last{{/order_md_last}}\" href=\"/event/{{id}}\" style=\"background-image: url({{event.image.sizes.microdata.url}});\"></a>\n" +
     "        <div class=\"half {{class}} d-flex align-items-center\">\n" +
     "            <div class=\"text p-4 text-center\">\n" +
     "                <p class=\"mb-0\">{{#event.tickets}}<span class=\"price mr-1\">{{price.min}}-{{price.max}}р</span>{{/event.tickets}}" +
@@ -20,7 +20,7 @@ const template = "{{#.}}\n" +
 let lastLoaded;
 
 const similarEventsTemplate = '{{#.}}<div class="block-21 mb-4 d-flex">\n' +
-    '            <a class="blog-img mr-4" style="background-image: url({{event.image.microdata.url}});"></a>\n' +
+    '            <a class="blog-img mr-4" style="background-image: url({{event.image.sizes.microdata.url}});"></a>\n' +
     '            <div class="text">\n' +
     '                <h3 class="heading"><a href="/event/{{id}}">{{event.title}}</a></h3>\n' +
     '                <div class="meta">\n' +

@@ -94,7 +94,7 @@
     const [city, distance, metric, genre, start, end] = window.location.href.split('/').slice(4, 10);
 
     let citesTemplate = "{{#cites}}\n"
-    let href = "<a href=\"/events/{{nameForSearch}}/{{distance}}/{{metric}}\">\n";
+    let href = "<a href=\"/events/{{name}}/{{distance}}/{{metric}}\">\n";
 
     let url;
     if (distance === undefined) {
@@ -109,10 +109,10 @@
     }
     if (genre !== null && genre !== undefined) {
         url += `/${genre}`;
-        href = "<a href=\"/events/{{nameForSearch}}/{{distance}}/{{metric}}/{{genre}}\">\n";
+        href = "<a href=\"/events/{{name}}/{{distance}}/{{metric}}/{{genre}}\">\n";
         if (start !== null && start !== undefined && end !== null && end !== undefined) {
             url += `/${start}/${end}`;
-            href = "<a href=\"/events/{{nameForSearch}}/{{distance}}/{{metric}}/{{genre}}/{{start}}/{{end}}\">\n";
+            href = "<a href=\"/events/{{name}}/{{distance}}/{{metric}}/{{genre}}/{{start}}/{{end}}\">\n";
         }
     }
 

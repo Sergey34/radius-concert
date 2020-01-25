@@ -333,7 +333,7 @@
         .then(data => {
             console.log(data);
             $('#event_title').text(data.event.title);
-            $('#event_logo').attr("src", data.event.image.microdata.url);
+            $('#event_logo').attr("src", data.event.image.sizes.microdata.url);
 
             const template = '{{#.}} <a class="tag-cloud-link" href="/events/tags/{{code}}">{{name}}</a> {{/.}}';
             let tagsRender = Mustache.render(template, data.event.tags);

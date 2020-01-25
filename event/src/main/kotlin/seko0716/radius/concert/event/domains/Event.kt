@@ -37,8 +37,12 @@ data class Event(
     ) {
         @JsonIgnoreProperties(ignoreUnknown = true)
         data class Image(
-            val microdata: Img?
+            val sizes: Sizes
         ) {
+            @JsonIgnoreProperties(ignoreUnknown = true)
+            data class Sizes(
+                val microdata: Img?
+            )
             @JsonIgnoreProperties(ignoreUnknown = true)
             data class Img(
                 val url: String

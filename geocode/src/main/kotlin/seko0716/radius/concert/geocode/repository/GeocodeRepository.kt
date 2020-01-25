@@ -18,7 +18,11 @@ class GeocodeRepository @Autowired constructor(
     }
 
     fun findById(name: String): Mono<Geocode> {
-        return Mono.justOrEmpty(geocodeStorage[name]).defaultIfEmpty(Geocode.EMPTY_GEOCODE)
+        val geocode = geocodeStorage2[name]
+            .takeIf { it?.size == 1 }
+            ?.last() ?: geocodeStorage[name]
+
+        return Mono.justOrEmpty(geocode).defaultIfEmpty(Geocode.EMPTY_GEOCODE)
     }
 
     fun getAllGeocodes(): Flux<Geocode> {

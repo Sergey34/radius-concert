@@ -27,7 +27,7 @@ class GeocodeConfig
     fun geocodes(): Map<String, List<Geocode>> {
         return mapper.readValue<List<Pair<String, SerderPoint>>>(File("geocodes.json"))
             .asSequence()
-            .filter { it.first.startsWith("Россия, ") }
+            .filter { filter(it) }
             .map { g ->
                 val name = g.first.removePrefix("Россия, ")
                 Geocode(
@@ -42,6 +42,22 @@ class GeocodeConfig
             .distinctBy { it.name.toLowerCase() }
             .groupBy { it.nameForSearch }
     }
+
+    private fun filter(it: Pair<String, SerderPoint>) =
+        it.first.startsWith("Россия, ")
+                && !it.first.contains("река ", true)
+                && !it.first.contains("переезд ", true)
+                && !it.first.contains("вокзал ", true)
+                && !it.first.contains("аэропорт ", true)
+                && !it.first.contains("озеро ", true)
+                && !it.first.contains("канал ", true)
+                && !it.first.contains("квартал ", true)
+                && !it.first.contains("улица ", true)
+                && !it.first.contains("переулок ", true)
+                && !it.first.contains("тупик ", true)
+                && !it.first.contains("проспект ", true)
+                && !it.first.contains("станция ", true)
+                && !it.first.contains("разъезд ", true)
 
     @Bean
     fun geocodeStorage(): Map<String, Geocode> {

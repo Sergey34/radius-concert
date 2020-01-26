@@ -18,10 +18,6 @@ class MongodbGeocodeService @Autowired constructor(
         return geocodeRepository.findById(name.toLowerCase())
     }
 
-    override fun getAllGeocodes(): Flux<Geocode> {
-        return geocodeRepository.getAllGeocodes()
-    }
-
     @Cacheable(cacheNames = ["geocodes"])
     override fun searchGeocodes(name: String): Flux<Geocode> {
         return geocodeRepository.getGeocodesByTemplate(name.toLowerCase())

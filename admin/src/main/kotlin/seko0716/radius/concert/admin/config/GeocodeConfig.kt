@@ -22,7 +22,7 @@ class GeocodeConfig
     }
 
     @Bean
-    fun geocodes(): Map<String, List<Geocode>> {
+    fun geocodeGroups(): Map<String, List<Geocode>> {
         return mapper.readValue<List<Pair<String, SerderPoint>>>(File("geocodes.json"))
             .asSequence()
             .filter { filter(it) }
@@ -61,7 +61,7 @@ class GeocodeConfig
     fun geocodeStorage(): Map<String, Geocode> {
         logger.info("Load geocodes")
 
-        return geocodes()
+        return geocodeGroups()
             .toMap()
             .flatMap {
                 if (it.value.size == 1) {

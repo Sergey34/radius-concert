@@ -27,6 +27,7 @@
         <module>security</module>
         <module>blog</module>
         <module>geocode</module>
+        <module>notification</module>
     </modules>
 
     <properties>

@@ -322,6 +322,43 @@
 <script src="/js/fillEvents.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
 
+
+<script>
+    function send() {
+        clientWebSocket.send("event-me-from-browser");
+    }
+
+    let clientWebSocket = new WebSocket("ws://localhost:8080/event-emitter");
+    clientWebSocket.onopen = function () {
+        console.log("clientWebSocket.onopen", clientWebSocket);
+        console.log("clientWebSocket.readyState", "websocketstatus");
+        clientWebSocket.send(JSON.stringify({
+            userName: '',
+            message: 'CONNECTED'
+        }));
+    };
+    clientWebSocket.onclose = function (error) {
+        console.log("clientWebSocket.onclose", clientWebSocket, error);
+        clientWebSocket.send(JSON.stringify({
+            userName: '',
+            message: 'DISCONNECTED'
+        }));
+    };
+    clientWebSocket.onerror = function (error) {
+        console.log("clientWebSocket.onerror", clientWebSocket, error);
+    };
+    clientWebSocket.onmessage = function (responseEvent) {
+        console.log("clientWebSocket.onmessage", clientWebSocket, responseEvent);
+        showMessage(responseEvent.data);
+    };
+
+    function showMessage(responseEvent) {
+        console.log(responseEvent)
+        // document.querySelector(".events").innerHTML += responseEvent + "<br>";
+    }
+</script>
+</section>
+
 <script>
     $.get(`/api/events?count=6`, function (data) {
         fillSimilarEvents(data);

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import seko0716.radius.concert.event.domains.Event
+import seko0716.radius.concert.event.domains.EventCount
 import seko0716.radius.concert.event.services.EventService
 import java.time.LocalDate
 
@@ -24,6 +25,11 @@ class EventsController @Autowired constructor(
         ) count: Int
     ): Flux<Event> {
         return eventService.getAllEvents(count)
+    }
+
+    @GetMapping("/cites")
+    fun cites(): Flux<EventCount> {
+        return eventService.getAvailableCites()
     }
 
     @GetMapping("/events/{city}")

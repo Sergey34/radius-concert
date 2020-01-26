@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import seko0716.radius.concert.event.domains.Event
+import seko0716.radius.concert.event.domains.EventCount
 import seko0716.radius.concert.event.repository.EventRepository
 import seko0716.radius.concert.geocode.services.GeocodeService
 import seko0716.radius.concert.shared.exceptions.CityNotFoundException
@@ -63,5 +64,9 @@ class EventService @Autowired constructor(
 
     fun getEventsByTitle(title: String): Flux<Event> {
         return eventRepository.getEventsByTitle(title)
+    }
+
+    fun getAvailableCites(): Flux<EventCount> {
+        return eventRepository.getAvailableCites()
     }
 }

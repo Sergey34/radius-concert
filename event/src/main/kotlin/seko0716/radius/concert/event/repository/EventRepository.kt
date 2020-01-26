@@ -7,6 +7,7 @@ import org.springframework.data.geo.Circle
 import org.springframework.data.geo.Distance
 import org.springframework.data.geo.Point
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
+import org.springframework.data.mongodb.core.aggregation.Aggregation.*
 import org.springframework.data.mongodb.core.find
 import org.springframework.data.mongodb.core.findAll
 import org.springframework.data.mongodb.core.findById
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import seko0716.radius.concert.event.domains.Event
+import seko0716.radius.concert.event.domains.EventCount
 import java.time.LocalDateTime
 
 
@@ -104,4 +106,14 @@ class EventRepository @Autowired constructor(
             )
         )
     }
+
+    fun getAvailableCites(): Flux<EventCount> {
+        val agg = newAggregation(
+            group("city.name").count().`as`("total"),
+            project("total").and("city").previousOperation(),
+            sort(Sort.Direction.DESC, "total")
+        )
+        return mongoTemplate.aggregate(agg, Event::class.java, EventCount::class.java)
+    }
 }
+

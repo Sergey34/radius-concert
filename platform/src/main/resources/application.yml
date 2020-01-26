@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: load_geocode_config
+    active: default
     include:
       - oauth2
       - view

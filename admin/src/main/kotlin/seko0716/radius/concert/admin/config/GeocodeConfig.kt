@@ -7,12 +7,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
 import org.springframework.data.geo.Point
 import seko0716.radius.concert.geocode.domains.Geocode
 import java.io.File
 
-@Profile("load_geocode_config")
 @Configuration
 class GeocodeConfig
 @Autowired constructor(

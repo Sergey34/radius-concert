@@ -13,7 +13,6 @@ import reactor.core.publisher.UnicastProcessor
 import seko0716.radius.concert.notification.domains.Message
 import seko0716.radius.concert.notification.repository.MessageRepository
 import seko0716.radius.concert.security.domains.User
-import java.util.*
 
 
 @Component("reactiveWebSocketHandler")
@@ -51,25 +50,5 @@ class ReactiveWebSocketHandler constructor(
                 )
             }))
             .then()
-    }
-}
-
-class WebSocketMessageSubscriber constructor(
-    private val eventPublisher: UnicastProcessor<Message>,
-    private var lastReceivedEvent: Optional<Message> = Optional.empty()
-) {
-    fun onNext(event: Message) {
-        lastReceivedEvent = Optional.of(event)
-        eventPublisher.onNext(event)
-    }
-
-    fun onError(error: Throwable) { //TODO log error
-        error.printStackTrace()
-    }
-
-    fun onComplete() {
-        lastReceivedEvent.ifPresent { event ->
-            eventPublisher.onNext(event)
-        }
     }
 }

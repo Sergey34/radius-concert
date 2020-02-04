@@ -293,7 +293,7 @@
 
 
 <script>
-    const receivedMessageTemplate =
+    const incomingMessageTemplate =
         '<div class="incoming_msg">\n' +
         '    <div class="incoming_msg_img">\n' +
         '        <img alt="sunil" src="https://ptetutorials.com/images/user-profile.png">\n' +
@@ -305,6 +305,15 @@
         '       </div>\n' +
         '   </div>\n' +
         '</div>';
+
+    const outgoingMessageTemplate =
+        '<div class="outgoing_msg">\n' +
+        '    <div class="sent_msg">\n' +
+        '        <p>{{content}}</p>\n' +
+        '        <span class="time_date"> {{author}} | {{createdWhen}}</span>\n' +
+        '    </div>\n' +
+        '</div>';
+
 
     function send() {
         let content = $('#write_msg').val();
@@ -328,13 +337,20 @@
         console.log("clientWebSocket.onerror", clientWebSocket, error);
     };
     clientWebSocket.onmessage = function (responseEvent) {
-        console.log("clientWebSocket.onmessage", clientWebSocket, responseEvent);
         showMessage(JSON.parse(responseEvent.data));
     };
 
     function showMessage(responseEvent) {
-        let messageRender = Mustache.render(receivedMessageTemplate, responseEvent);
-        $('#msg_history').prepend(messageRender);
+        console.log(responseEvent);
+        if (responseEvent.eventId === id) {
+            let messageRender;
+            if (responseEvent.author === $('#user').text()) {
+                messageRender = Mustache.render(outgoingMessageTemplate, responseEvent);
+            } else {
+                messageRender = Mustache.render(incomingMessageTemplate, responseEvent);
+            }
+            $('#msg_history').prepend(messageRender);
+        }
     }
 </script>
 </section>

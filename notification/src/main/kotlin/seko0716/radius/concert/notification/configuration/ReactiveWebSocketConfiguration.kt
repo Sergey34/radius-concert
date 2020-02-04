@@ -16,9 +16,9 @@ import seko0716.radius.concert.notification.domains.Message
 class ReactiveWebSocketConfiguration {
     @Bean
     fun webSocketHandlerMapping(
-        @Qualifier("reactiveWebSocketHandler") webSocketHandler: WebSocketHandler
+        @Qualifier("messagingReactiveWebSocketHandler") webSocketHandler: WebSocketHandler
     ): HandlerMapping {
-        val map: MutableMap<String, WebSocketHandler> = mutableMapOf("/event-emitter" to webSocketHandler)
+        val map: MutableMap<String, WebSocketHandler> = mutableMapOf("/message-emitter" to webSocketHandler)
         return SimpleUrlHandlerMapping()
             .apply {
                 order = 1

@@ -182,7 +182,7 @@
         $('#write_msg').val('');
     }
 
-    let clientWebSocket = new WebSocket("ws://localhost:8080/event-emitter");
+    let clientWebSocket = new WebSocket("ws://localhost:8080/message-emitter");
     clientWebSocket.onopen = function () {
         console.log("clientWebSocket.onopen", clientWebSocket);
         console.log("clientWebSocket.readyState", "websocketstatus");

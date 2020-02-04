@@ -15,8 +15,8 @@ import seko0716.radius.concert.notification.repository.MessageRepository
 import seko0716.radius.concert.security.domains.User
 
 
-@Component("reactiveWebSocketHandler")
-class ReactiveWebSocketHandler constructor(
+@Component("messagingReactiveWebSocketHandler")
+class MessagingReactiveWebSocketHandler constructor(
     private val objectMapper: ObjectMapper,
     private val eventPublisher: UnicastProcessor<Message>,
     private val messageRepository: MessageRepository,

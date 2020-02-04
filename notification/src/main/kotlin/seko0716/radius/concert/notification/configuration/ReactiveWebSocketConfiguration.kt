@@ -9,6 +9,7 @@ import org.springframework.web.reactive.socket.WebSocketHandler
 import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter
 import reactor.core.publisher.Flux
 import reactor.core.publisher.UnicastProcessor
+import seko0716.radius.concert.notification.domains.Message
 
 
 @Configuration
@@ -31,12 +32,12 @@ class ReactiveWebSocketConfiguration {
     }
 
     @Bean
-    fun eventPublisher(): UnicastProcessor<Map<String, String>> {
-        return UnicastProcessor.create<Map<String, String>>()
+    fun eventPublisher(): UnicastProcessor<Message> {
+        return UnicastProcessor.create<Message>()
     }
 
     @Bean
-    fun events(eventPublisher: UnicastProcessor<Map<String, String>>): Flux<Map<String, String>> {
+    fun events(eventPublisher: UnicastProcessor<Message>): Flux<Message> {
         return eventPublisher
             .replay(25)
             .autoConnect()

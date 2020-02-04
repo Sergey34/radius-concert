@@ -10,6 +10,7 @@ import org.springframework.web.reactive.socket.WebSocketSession
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.core.publisher.UnicastProcessor
+import seko0716.radius.concert.notification.domains.Message
 import seko0716.radius.concert.security.domains.User
 import java.util.*
 
@@ -17,18 +18,20 @@ import java.util.*
 @Component("reactiveWebSocketHandler")
 class ReactiveWebSocketHandler constructor(
     private val objectMapper: ObjectMapper,
-    private val eventPublisher: UnicastProcessor<Map<String, String>>,
-    events: Flux<Map<String, String>>
+    private val eventPublisher: UnicastProcessor<Message>,
+    events: Flux<Message>
 ) : WebSocketHandler {
     private val outputEvents: Flux<String> = Flux.from(events).map { json.writeValueAsString(it) }
 
-    fun toMessage(json: String): Mono<MutableMap<String, String>> {
+    fun toMessage(json: String): Mono<Message> {
         return ReactiveSecurityContextHolder.getContext()
-            .map { it.authentication }
+            .map { it.authentication?.principal as User? }
+            .map { it?.login }
             .map { a ->
-                objectMapper.readValue<MutableMap<String, String>>(json)
-                    .apply { put("userName", (a.principal as User).login) }
+                objectMapper.readValue<Message>(json)
+                    .apply { author = a ?: "Гость" }
             }
+            .defaultIfEmpty(objectMapper.readValue(json))
     }
 
     override fun handle(session: WebSocketSession): Mono<Void> {
@@ -53,10 +56,10 @@ class ReactiveWebSocketHandler constructor(
 }
 
 class WebSocketMessageSubscriber constructor(
-    private val eventPublisher: UnicastProcessor<Map<String, String>>,
-    private var lastReceivedEvent: Optional<Map<String, String>> = Optional.empty()
+    private val eventPublisher: UnicastProcessor<Message>,
+    private var lastReceivedEvent: Optional<Message> = Optional.empty()
 ) {
-    fun onNext(event: Map<String, String>) {
+    fun onNext(event: Message) {
         lastReceivedEvent = Optional.of(event)
         eventPublisher.onNext(event)
     }
@@ -70,5 +73,4 @@ class WebSocketMessageSubscriber constructor(
             eventPublisher.onNext(event)
         }
     }
-
 }

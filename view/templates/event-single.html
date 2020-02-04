@@ -214,7 +214,7 @@
                     <div class="messaging">
                         <div class="inbox_msg">
                             <div class="mesgs">
-                                <div class="msg_history">
+                                <div class="msg_history" id="msg_history">
                                     <div class="incoming_msg">
                                         <div class="incoming_msg_img">
                                             <img alt="sunil" src="https://ptetutorials.com/images/user-profile.png">
@@ -234,51 +234,20 @@
                                             <span class="time_date"> 11:01 AM    |    June 9</span>
                                         </div>
                                     </div>
-                                    <div class="incoming_msg">
-                                        <div class="incoming_msg_img">
-                                            <img alt="sunil" src="https://ptetutorials.com/images/user-profile.png">
-                                        </div>
-                                        <div class="received_msg">
-                                            <div class="received_withd_msg">
-                                                <p>Test, which is a new approach to have</p>
-                                                <span class="time_date"> 11:01 AM    |    Yesterday</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="outgoing_msg">
-                                        <div class="sent_msg">
-                                            <p>Apollo University, Delhi, India Test</p>
-                                            <span class="time_date"> 11:01 AM    |    Today</span></div>
-                                    </div>
-                                    <div class="incoming_msg">
-                                        <div class="incoming_msg_img">
-                                            <img alt="sunil" src="https://ptetutorials.com/images/user-profile.png">
-                                        </div>
-                                        <div class="received_msg">
-                                            <div class="received_withd_msg">
-                                                <p>We work directly with our designers and suppliers,
-                                                    and sell direct to you, which means quality, exclusive
-                                                    products, at a price anyone can afford.</p>
-                                                <span class="time_date"> 11:01 AM    |    Today</span>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="type_msg">
                                     <div class="input_msg_write">
-                                        <input class="write_msg" placeholder="Type a message" type="text"/>
-                                        <button class="msg_send_btn" type="button">
+                                        <input class="write_msg" id="write_msg" placeholder="Type a message"
+                                               type="text"/>
+                                        <button class="msg_send_btn" onclick="send()" type="button">
                                             <i aria-hidden="true" class="fa fa-paper-plane-o"></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-
             </div> <!-- .col-md-8 -->
             <div class="col-lg-4 sidebar ftco-animate pl-md-5">
                 <div class="sidebar-box ftco-animate">
@@ -324,37 +293,48 @@
 
 
 <script>
+    const receivedMessageTemplate =
+        '<div class="incoming_msg">\n' +
+        '    <div class="incoming_msg_img">\n' +
+        '        <img alt="sunil" src="https://ptetutorials.com/images/user-profile.png">\n' +
+        '    </div>\n' +
+        '    <div class="received_msg">\n' +
+        '        <div class="received_withd_msg">\n' +
+        '            <p>{{content}}</p>\n' +
+        '           <span class="time_date"> {{author}} | {{createdWhen}}</span>\n' +
+        '       </div>\n' +
+        '   </div>\n' +
+        '</div>';
+
     function send() {
-        clientWebSocket.send("event-me-from-browser");
+        let content = $('#write_msg').val();
+        if (content) {
+            clientWebSocket.send(JSON.stringify({
+                eventId: id,
+                content: content
+            }));
+        }
     }
 
     let clientWebSocket = new WebSocket("ws://localhost:8080/event-emitter");
     clientWebSocket.onopen = function () {
         console.log("clientWebSocket.onopen", clientWebSocket);
         console.log("clientWebSocket.readyState", "websocketstatus");
-        clientWebSocket.send(JSON.stringify({
-            userName: '',
-            message: 'CONNECTED'
-        }));
     };
     clientWebSocket.onclose = function (error) {
         console.log("clientWebSocket.onclose", clientWebSocket, error);
-        clientWebSocket.send(JSON.stringify({
-            userName: '',
-            message: 'DISCONNECTED'
-        }));
     };
     clientWebSocket.onerror = function (error) {
         console.log("clientWebSocket.onerror", clientWebSocket, error);
     };
     clientWebSocket.onmessage = function (responseEvent) {
         console.log("clientWebSocket.onmessage", clientWebSocket, responseEvent);
-        showMessage(responseEvent.data);
+        showMessage(JSON.parse(responseEvent.data));
     };
 
     function showMessage(responseEvent) {
-        console.log(responseEvent)
-        // document.querySelector(".events").innerHTML += responseEvent + "<br>";
+        let messageRender = Mustache.render(receivedMessageTemplate, responseEvent);
+        $('#msg_history').prepend(messageRender);
     }
 </script>
 </section>

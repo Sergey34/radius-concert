@@ -25,6 +25,11 @@ class ViewController {
         return "events"
     }
 
+    @GetMapping("/cities")
+    fun cities(model: Model): String {
+        return "city"
+    }
+
     @GetMapping("/event/*")
     fun event(model: Model): String {
         return "event-single"

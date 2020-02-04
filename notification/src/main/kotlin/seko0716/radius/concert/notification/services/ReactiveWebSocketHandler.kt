@@ -11,6 +11,7 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.core.publisher.UnicastProcessor
 import seko0716.radius.concert.notification.domains.Message
+import seko0716.radius.concert.notification.repository.MessageRepository
 import seko0716.radius.concert.security.domains.User
 import java.util.*
 
@@ -19,9 +20,10 @@ import java.util.*
 class ReactiveWebSocketHandler constructor(
     private val objectMapper: ObjectMapper,
     private val eventPublisher: UnicastProcessor<Message>,
+    private val messageRepository: MessageRepository,
     events: Flux<Message>
 ) : WebSocketHandler {
-    private val outputEvents: Flux<String> = Flux.from(events).map { json.writeValueAsString(it) }
+    private val outputEvents: Flux<String> = Flux.from(events).map { objectMapper.writeValueAsString(it) }
 
     fun toMessage(json: String): Mono<Message> {
         return ReactiveSecurityContextHolder.getContext()
@@ -42,16 +44,13 @@ class ReactiveWebSocketHandler constructor(
             .doOnNext { event -> subscriber.onNext(event) }
             .doOnError { error: Throwable -> subscriber.onError(error) }
             .doOnComplete { subscriber.onComplete() }
+            .doOnNext { messageRepository.save(it) }
             .zipWith(session.send(outputEvents.map { payload: String ->
                 session.textMessage(
                     payload
                 )
             }))
             .then()
-    }
-
-    companion object {
-        private val json = ObjectMapper()
     }
 }
 

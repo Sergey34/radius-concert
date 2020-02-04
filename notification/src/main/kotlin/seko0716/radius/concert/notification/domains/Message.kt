@@ -19,7 +19,7 @@ data class Message(
     var author: String = "Гость",
     val content: String,
     val recipient: String? = null,
-    @field:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @field:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @field:JsonSerialize(using = ZonedDateTimeSerializer::class)
     val createdWhen: ZonedDateTime = ZonedDateTime.now(Clock.systemUTC())
 )

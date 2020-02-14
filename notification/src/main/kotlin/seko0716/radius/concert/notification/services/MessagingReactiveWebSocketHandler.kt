@@ -2,7 +2,7 @@ package seko0716.radius.concert.notification.services
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import org.springframework.security.core.context.ReactiveSecurityContextHolder
+import org.springframework.security.core.context.SecurityContext
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.socket.WebSocketHandler
 import org.springframework.web.reactive.socket.WebSocketMessage
@@ -25,21 +25,21 @@ class MessagingReactiveWebSocketHandler constructor(
     private val outputEvents: Flux<String> = Flux.from(events).map { objectMapper.writeValueAsString(it) }
 
     fun toMessage(json: String): Mono<Message> {
-        return ReactiveSecurityContextHolder.getContext()
-            .map { it.authentication?.principal as User? }
-            .map { it?.login }
-            .map { a ->
-                objectMapper.readValue<Message>(json)
-                    .apply { author = a ?: "Гость" }
+        return Mono.subscriberContext()
+            .map {
+                val message = objectMapper.readValue<Message>(json)
+                if (it.hasKey(SecurityContext::class.java)) {
+                    val sc = it.get(SecurityContext::class.java)
+                    message.author = (sc.authentication?.principal as User?)?.login ?: "Гость"
+                }
+                message
             }
-            .defaultIfEmpty(objectMapper.readValue(json))
     }
 
     override fun handle(session: WebSocketSession): Mono<Void> {
         val subscriber = WebSocketMessageSubscriber(eventPublisher)
         return session.receive()
-            .map { obj: WebSocketMessage -> obj.payloadAsText }
-            .flatMap { toMessage(it) }
+            .flatMap { obj: WebSocketMessage -> toMessage(obj.payloadAsText) }
             .doOnNext { event -> subscriber.onNext(event) }
             .doOnError { error: Throwable -> subscriber.onError(error) }
             .doOnComplete { subscriber.onComplete() }

@@ -9,11 +9,13 @@ data class Geocode(
     @Id
     val nameForSearch: String,
     val name: String,
-    val point: Point
+    val point: MyPoint
 ) {
     companion object {
         @JvmField
         val EMPTY_GEOCODE =
-            Geocode("", "", Point(Double.NaN, Double.NaN))
+            Geocode("", "", MyPoint(Double.NaN, Double.NaN))
     }
 }
+
+class MyPoint(x: Double = Double.NaN, y: Double = Double.NaN) : Point(x, y)

@@ -45,6 +45,11 @@ class ViewController {
         return "blog-single"
     }
 
+    @GetMapping(path = ["/blog/create", "/blog/create/{event_id}"])
+    fun blogCreate(model: Model): String {
+        return "blog-create"
+    }
+
     @GetMapping("/contact")
     fun contact(model: Model): String {
         return "contact"

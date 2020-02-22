@@ -8,7 +8,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import seko0716.radius.concert.event.domains.Event
 import seko0716.radius.concert.security.domains.User
 import java.time.Clock
 import java.time.LocalDateTime
@@ -18,12 +17,13 @@ import java.time.ZonedDateTime
 data class Blog(
     @Id
     val id: ObjectId = ObjectId.get(),
-    val title: String,
+    val title: String = "",
     val mainImege: String = "",
     val preview: String = "",
-    val content: String,
-    val author: User,
-    val events: List<Event> = listOf(),
+    val content: String = "",
+    val event: String? = null,
+    var author: User? = null,
+    var tags: List<String> = listOf(),
     @field:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @field:JsonSerialize(using = LocalDateTimeSerializer::class)
     @field:JsonDeserialize(using = LocalDateTimeDeserializer::class)

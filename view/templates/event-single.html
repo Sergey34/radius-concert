@@ -107,6 +107,11 @@
             </div> <!-- .col-md-8 -->
             <div class="col-lg-4 sidebar ftco-animate pl-md-5">
                 <div class="sidebar-box ftco-animate">
+                    <a class="btn btn-primary py-5 py-md-3 px-4 align-self-stretch d-block" href="/blog/create" id="search">
+                        <span>Написать статью</span>
+                    </a>
+                </div>
+                <div class="sidebar-box ftco-animate">
                     <h3>Похожие концерты</h3>
                     <div id="similar_events"></div>
                 </div>
@@ -208,6 +213,7 @@
             $('#msg_history').prepend(messageRender);
         }
     }
+
 </script>
 </section>
 
@@ -215,9 +221,13 @@
     $.get(`/api/events?count=6`, function (data) {
         fillSimilarEvents(data);
     });
+
 </script>
 <script>
     const [id] = window.location.href.split('/').slice(4, 5);
+    $("#search").attr('href', '/blog/create/'+id)
+
+
     $.get(`/api/event/${id}`)
         .then(data => {
             console.log(data);
@@ -255,6 +265,7 @@
             let infoRender = Mustache.render(infoTemplate, data);
             $('#info').html(infoRender);
         })
+
 </script>
 </body>
 </html>

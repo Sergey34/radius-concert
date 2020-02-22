@@ -6,7 +6,6 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import seko0716.radius.concert.blog.domain.Blog
 import seko0716.radius.concert.blog.repository.BlogRepository
-import seko0716.radius.concert.event.domains.Event
 import seko0716.radius.concert.security.domains.User
 
 
@@ -35,14 +34,14 @@ class BlogService constructor(
         title: String,
         content: String,
         preview: String,
-        events: List<Event>
+        event: String?
     ): Mono<Blog> {
         return saveBlog(
             Blog(
                 title = title,
                 content = content,
                 author = author,
-                events = events,
+                event = event,
                 preview = preview
             )
         )
@@ -57,7 +56,7 @@ class BlogService constructor(
         title: String?,
         preview: String?,
         content: String?,
-        events: List<Event>?
+        event: String?
     ): Mono<Blog> {
         return blogRepository.findById(objectId)
             .map {
@@ -66,7 +65,7 @@ class BlogService constructor(
                     title = title ?: it.title,
                     content = content ?: it.content,
                     author = it.author,
-                    events = events ?: it.events,
+                    event = event,
                     createdWhen = it.createdWhen,
                     preview = preview ?: it.preview
                 )
@@ -79,9 +78,9 @@ class BlogService constructor(
         title: String?,
         preview: String?,
         content: String?,
-        events: List<Event>?
+        event: String?
     ): Mono<Blog> {
-        return updateBlog(ObjectId(objectId), title, preview, content, events)
+        return updateBlog(ObjectId(objectId), title, preview, content, event)
     }
 
     fun getBlogs(): Flux<Blog> {

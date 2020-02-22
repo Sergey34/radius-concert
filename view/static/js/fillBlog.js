@@ -3,7 +3,7 @@ let blog_stored = [];
 const blogTemplate = "{{#.}}\n" +
     "<div class=\"col-md-4 d-flex ftco-animate\">\n" +
     "    <div class=\"blog-entry align-self-stretch\">\n" +
-    "        <a class=\"block-20 rounded\" href=\"blog-single.html\"\n" +
+    "        <a class=\"block-20 rounded\" href=\"/blog/{{id}}\"\n" +
     "           style=\"background-image: url({{mainImege}});\">\n" +
     "        </a>\n" +
     "        <div class=\"text mt-3 text-center\">\n" +

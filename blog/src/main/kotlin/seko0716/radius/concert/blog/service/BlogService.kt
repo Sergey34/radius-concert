@@ -98,4 +98,8 @@ class BlogService constructor(
     fun getBlogs(n: Int): Flux<Blog> {
         return blogRepository.findTop50By().take(n.toLong())
     }
+
+    fun getBlog(id: String): Mono<Blog> {
+        return blogRepository.findById(ObjectId(id))
+    }
 }

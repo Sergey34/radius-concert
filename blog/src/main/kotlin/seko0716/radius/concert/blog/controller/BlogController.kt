@@ -8,16 +8,21 @@ import seko0716.radius.concert.blog.domain.Blog
 import seko0716.radius.concert.blog.service.BlogService
 
 @RestController
-@RequestMapping("/api/blogs")
+@RequestMapping("/api")
 class BlogController @Autowired constructor(
     private val blogService: BlogService
 ) {
-    @GetMapping("/{count}")
+    @GetMapping("/blogs/{count}")
     fun getBlogs(@PathVariable(name = "count") n: Int): Flux<Blog> {
         return blogService.getBlogs(n)
     }
 
-    @PostMapping()
+    @GetMapping("/blog/{id}")
+    fun getBlog(@PathVariable(name = "id") id: String): Mono<Blog> {
+        return blogService.getBlog(id)
+    }
+
+    @PostMapping("/blogs")
     fun createBlog(@RequestBody blog: Blog): Mono<Blog> {
         return blogService.saveBlog(blog)
     }

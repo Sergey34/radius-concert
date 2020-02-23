@@ -92,7 +92,11 @@
 
 <script>
     const [city, distance, metric, genre, start, end] = window.location.href.split('/').slice(4, 10);
-    const eventTitle = window.location.href.split('?')[1].split("=")[1];
+    let eventTitle = null;
+    if (window.location.href.includes('?')){
+      eventTitle = window.location.href.split('?')[1].split("=")[1];
+    }
+
 
     function loadEventsByCity() {
         let citesTemplate = "{{#cites}}\n";
@@ -169,6 +173,7 @@
     } else {
         loadEventsByEventTitle();
     }
+
 
 </script>
 </body>

@@ -17,6 +17,11 @@ class BlogController @Autowired constructor(
         return blogService.getBlogs(n)
     }
 
+    @GetMapping("/blogs")
+    fun getAllBlogs(): Flux<Blog> {
+        return blogService.getBlogs()
+    }
+
     @GetMapping("/blog/{id}")
     fun getBlog(@PathVariable(name = "id") id: String): Mono<Blog> {
         return blogService.getBlog(id)

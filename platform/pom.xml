@@ -5,10 +5,10 @@
     <parent>
         <groupId>seko0716.redius.concert</groupId>
         <artifactId>radius-concert</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <artifactId>platform</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>platform</name>
 
     <properties>
@@ -20,37 +20,37 @@
         <dependency>
             <groupId>seko0716.redius.concert</groupId>
             <artifactId>admin</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>seko0716.redius.concert</groupId>
             <artifactId>geocode</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>seko0716.redius.concert</groupId>
             <artifactId>blog</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>seko0716.redius.concert</groupId>
             <artifactId>event</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>seko0716.redius.concert</groupId>
             <artifactId>view</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>seko0716.redius.concert</groupId>
             <artifactId>notification</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>seko0716.redius.concert</groupId>
             <artifactId>security</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

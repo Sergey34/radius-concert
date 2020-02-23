@@ -13,7 +13,7 @@
 
     <groupId>seko0716.redius.concert</groupId>
     <artifactId>radius-concert</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>radius-concert</name>
     <description>Radius Concert</description>

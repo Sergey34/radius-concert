@@ -1,6 +1,0 @@
-spring:
-  thymeleaf:
-    prefix: file:view/templates/
-
-  resources:
-    static-locations: file:view/static/

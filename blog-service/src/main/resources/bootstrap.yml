@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: test
+  application:
+    name: blog
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      password: 11
+      username: user
+

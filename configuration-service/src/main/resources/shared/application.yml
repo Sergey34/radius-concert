@@ -1,0 +1,13 @@
+logging:
+  level:
+    org.springframework.security: INFO
+  config: classpath:logback-spring.xml
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+

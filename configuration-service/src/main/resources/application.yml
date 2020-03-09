@@ -1,2 +1,22 @@
+logging:
+  level:
+    org.springframework.security: INFO
+  config: classpath:logback-spring.xml
+
 server:
-  port: 8001
+  port: 8888
+
+spring:
+  application:
+    name: config-service
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/shared
+  profiles:
+    active: native,test
+  security:
+    user:
+      password: 11
+      name: user

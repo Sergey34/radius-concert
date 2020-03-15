@@ -19,10 +19,7 @@
     <description>Radius Concert</description>
 
     <modules>
-        <module>auth-service</module>
         <module>blog-service</module>
-        <module>configuration-service</module>
-        <module>service-discovery</module>
         <module>shared</module>
     </modules>
 
